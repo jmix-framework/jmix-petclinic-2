@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<menu-config xmlns="http://jmix.io/schema/flowui/menu">
+
+    <menu id="application" title="msg://io.jmix.petclinic/menu.application.title" opened="true">
+        <item view="User.list" title="msg://io.jmix.petclinic.view.user/UserListView.title"/>
+        <item view="petclinic_Pet.list" title="msg://io.jmix.petclinic.view.pet.pet/petListView.title"/>
+        <item view="petclinic_Owner.list" title="msg://io.jmix.petclinic.view.owner.owner/ownerListView.title"/>
+        <item view="petclinic_Visit.list" title="msg://io.jmix.petclinic.view.visit/visitListView.title"/>
+    </menu>
+
+    <menu id="application-masterdata" title="msg://io.jmix.petclinic/menu.application-masterdata.title" opened="false">
+
+        <item view="petclinic_Specialty.list"
+              title="msg://io.jmix.petclinic.view.veterinarian.specialty/specialtyListView.title"/>
+        <item view="petclinic_Veterinarian.list"
+              title="msg://io.jmix.petclinic.view.veterinarian.veterinarian/veterinarianListView.title"/>
+        <item view="petclinic_PetType.list" title="msg://io.jmix.petclinic.view.pet.pettype/petTypeListView.title"/>
+    </menu>
+
+</menu-config>

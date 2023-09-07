@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://ownerDetailView.title"
+      focusComponent="form">
+    <data>
+        <instance id="ownerDc"
+                  class="io.jmix.petclinic.entity.owner.Owner">
+            <fetchPlan extends="_base">
+                <property name="pets" fetchPlan="_base">
+                    <property name="type" fetchPlan="_instance_name"/>
+                </property>
+            </fetchPlan>
+            <loader/>
+            <collection id="petsDc" property="pets"/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="saveAction" type="detail_saveClose"/>
+        <action id="closeAction" type="detail_close"/>
+    </actions>
+    <layout>
+        <formLayout id="form" dataContainer="ownerDc">
+            <textField id="firstNameField" property="firstName"/>
+            <textField id="lastNameField" property="lastName"/>
+            <textField id="addressField" property="address"/>
+            <textField id="cityField" property="city"/>
+            <textField id="emailField" property="email"/>
+            <textField id="telephoneField" property="telephone"/>
+        </formLayout>
+
+        <h3 text="msg://io.jmix.petclinic.entity.owner/Owner.pets" />
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button action="petsDataGrid.create"/>
+            <button action="petsDataGrid.edit"/>
+            <button action="petsDataGrid.remove"/>
+        </hbox>
+        <dataGrid id="petsDataGrid" dataContainer="petsDc" width="100%" minHeight="20em">
+            <actions>
+                <action id="create" type="list_create">
+                    <properties>
+                        <property name="openMode" value="DIALOG"/>
+                    </properties>
+                </action>
+                <action id="edit" type="list_edit">
+                    <properties>
+                        <property name="openMode" value="DIALOG"/>
+                    </properties>
+                </action>
+                <action id="remove" type="list_remove"/>
+            </actions>
+            <columns>
+                <column property="name"/>
+                <column property="identificationNumber"/>
+                <column property="birthdate"/>
+                <column property="type"/>
+            </columns>
+        </dataGrid>
+        <hbox id="detailActions">
+            <button id="saveAndCloseBtn" action="saveAction"/>
+            <button id="closeBtn" action="closeAction"/>
+        </hbox>
+    </layout>
+</view>

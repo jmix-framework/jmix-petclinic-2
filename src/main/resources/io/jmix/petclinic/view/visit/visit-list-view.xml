@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://visitListView.title"
+      focusComponent="visitsDataGrid">
+    <data readOnly="true">
+        <collection id="visitsDc"
+                    class="io.jmix.petclinic.entity.visit.Visit">
+            <fetchPlan extends="_base">
+                <property name="pet" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="visitsDl">
+                <query>
+                    <![CDATA[select e from petclinic_Visit e]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="visitsCalendarDc"
+                    class="io.jmix.petclinic.entity.visit.Visit">
+            <fetchPlan extends="_base">
+                <property name="pet" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="visitsCalendarDl">
+                <query>
+                    <![CDATA[select e from petclinic_Visit e where e.visitStart >= :visitStart and e.visitEnd <= :visitEnd]]>
+                    <condition>
+                        <c:jpql>
+                            <c:where>e.type in :type</c:where>
+                        </c:jpql>
+                    </condition>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <genericFilter component="genericFilter"/>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+        <action id="calendarHome" icon="HOME" />
+        <action id="calendarPrev" icon="ARROW_CIRCLE_LEFT" />
+        <action id="calendarNext" icon="ARROW_CIRCLE_RIGHT" />
+    </actions>
+    <layout>
+        <tabSheet id="contentTabSheet" width="100%" height="100%">
+            <tab id="calendarTab" label="msg://calendar">
+                <vbox width="100%" height="100%">
+                    <split width="100%" themeNames="splitter-spacing" splitterPosition="16" height="100%">
+                        <vbox id="filterBox">
+                            <details summaryText="msg://calendarMode" width="100%" opened="true">
+                                <radioButtonGroup id="calendarModeField"
+                                                  itemsEnum="io.jmix.petclinic.view.visit.calendar.CalendarMode"/>
+                            </details>
+                            <details summaryText="msg://visitType" width="100%" opened="true">
+                                <checkboxGroup id="visitTypeField"
+                                               themeNames="vertical"/>
+                            </details>
+                        </vbox>
+                        <vbox id="calendarBox">
+                            <hbox id="calendarButtonsPanel" classNames="buttons-panel">
+                                <button id="homeBtn" action="calendarHome"/>
+                                <button id="prevBtn" action="calendarPrev"/>
+                                <button id="nextBtn" action="calendarNext"/>
+                                <label id="calendarTitle" />
+                            </hbox>
+                            <vbox id="calenderWrapper" width="100%" />
+                        </vbox>
+                    </split>
+
+
+                </vbox>
+            </tab>
+            <tab id="allVisitsTab" label="msg://allVisits">
+                <vbox width="100%">
+                    <genericFilter id="genericFilter"
+                                   dataLoader="visitsDl">
+                        <properties include=".*"/>
+                    </genericFilter>
+                    <hbox id="buttonsPanel" classNames="buttons-panel">
+                        <button id="createBtn" action="visitsDataGrid.create"/>
+                        <button id="editBtn" action="visitsDataGrid.edit"/>
+                        <button id="removeBtn" action="visitsDataGrid.remove"/>
+                        <simplePagination id="pagination" dataLoader="visitsDl"/>
+                    </hbox>
+                    <dataGrid id="visitsDataGrid"
+                              width="100%"
+                              minHeight="20em"
+                              dataContainer="visitsDc">
+                        <actions>
+                            <action id="create" type="list_create"/>
+                            <action id="edit" type="list_edit"/>
+                            <action id="remove" type="list_remove"/>
+                        </actions>
+                        <columns>
+                            <column property="pet"/>
+                            <column property="type"/>
+                            <column property="visitStart"/>
+                            <column property="visitEnd"/>
+                            <column property="description"/>
+                            <column property="treatmentStatus"/>
+                        </columns>
+                    </dataGrid>
+                </vbox>
+            </tab>
+        </tabSheet>
+
+        <hbox id="lookupActions" visible="false">
+            <button id="selectBtn" action="selectAction"/>
+            <button id="discardBtn" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>

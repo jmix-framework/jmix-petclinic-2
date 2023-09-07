@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://petTypeLookupView.title"
+      focusComponent="petTypesDataGrid">
+    <data readOnly="true">
+        <collection id="petTypesDc"
+                    class="io.jmix.petclinic.entity.pet.PetType">
+            <fetchPlan extends="_instance_name"/>
+            <loader id="petTypesDl">
+                <query>
+                    <![CDATA[select e from petclinic_PetType e]]>
+                    <condition>
+                        <c:jpql>
+                            <c:where>e.name like :component_nameFilterField</c:where>
+                        </c:jpql>
+                    </condition>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <textField id="nameFilterField" 
+                       clearButtonVisible="true" 
+                       autofocus="true"
+                       width="70%"
+                       placeholder="msg://searchByName"/>
+            <simplePagination id="pagination" dataLoader="petTypesDl"/>
+        </hbox>
+        <dataGrid id="petTypesDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="petTypesDc">
+            <actions>
+            </actions>
+            <columns>
+                <column property="name"/>
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectBtn" action="selectAction"/>
+            <button id="discardBtn" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>

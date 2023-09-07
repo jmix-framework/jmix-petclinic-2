@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://petListView.title"
+      focusComponent="petsDataGrid">
+    <data readOnly="true">
+        <collection id="petsDc"
+                    class="io.jmix.petclinic.entity.pet.Pet">
+            <fetchPlan extends="_base">
+                <property name="type" fetchPlan="_instance_name"/>
+                <property name="owner" fetchPlan="_instance_name"/>
+            </fetchPlan>
+            <loader id="petsDl">
+                <query>
+                    <![CDATA[select e from petclinic_Pet e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <genericFilter component="genericFilter"/>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <genericFilter id="genericFilter"
+                       dataLoader="petsDl">
+            <properties include=".*"/>
+        </genericFilter>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="createBtn" action="petsDataGrid.create"/>
+            <button id="editBtn" action="petsDataGrid.edit"/>
+            <button id="removeBtn" action="petsDataGrid.remove"/>
+            <simplePagination id="pagination" dataLoader="petsDl"/>
+        </hbox>
+        <dataGrid id="petsDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="petsDc">
+            <actions>
+                <action id="create" type="list_create" />
+                <action id="edit" type="list_edit"/>
+                <action id="remove" type="list_remove"/>
+            </actions>
+            <columns>
+                <column property="name"/>
+                <column property="identificationNumber"/>
+                <column property="birthdate"/>
+                <column property="type"/>
+                <column property="owner"/>
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectBtn" action="selectAction"/>
+            <button id="discardBtn" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>

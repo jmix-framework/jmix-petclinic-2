@@ -1,0 +1,10 @@
+/* Define your styles here */
+
+
+html {
+    --lumo-primary-color: rgb(134, 122, 235);
+    --lumo-primary-color-50pct: rgba(134, 122, 235, 0.5);
+    --lumo-primary-color-10pct: rgba(134, 122, 235, 0.1);
+    --lumo-primary-text-color: var(--lumo-primary-color);
+
+}

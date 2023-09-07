@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://specialtyListView.title"
+      focusComponent="specialtiesDataGrid">
+    <data readOnly="true">
+        <collection id="specialtiesDc"
+                    class="io.jmix.petclinic.entity.veterinarian.Specialty">
+            <fetchPlan extends="_base"/>
+            <loader id="specialtiesDl">
+                <query>
+                    <![CDATA[select e from petclinic_Specialty e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <genericFilter component="genericFilter"/>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <genericFilter id="genericFilter"
+                       dataLoader="specialtiesDl">
+            <properties include=".*"/>
+        </genericFilter>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="createBtn" action="specialtiesDataGrid.create"/>
+            <button id="editBtn" action="specialtiesDataGrid.edit"/>
+            <button id="removeBtn" action="specialtiesDataGrid.remove"/>
+            <simplePagination id="pagination" dataLoader="specialtiesDl"/>
+        </hbox>
+        <dataGrid id="specialtiesDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="specialtiesDc">
+            <actions>
+                <action id="create" type="list_create"/>
+                <action id="edit" type="list_edit"/>
+                <action id="remove" type="list_remove"/>
+            </actions>
+            <columns>
+                <column property="name"/>
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectBtn" action="selectAction"/>
+            <button id="discardBtn" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>
