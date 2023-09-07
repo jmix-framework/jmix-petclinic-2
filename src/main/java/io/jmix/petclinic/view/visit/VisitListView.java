@@ -108,6 +108,8 @@ public class VisitListView extends StandardListView<Visit> {
     }
 
     private Stream<Entry> reloadCalendar(EntryQuery query) {
+        calendar.setStartDate(query.getStart());
+        calendar.setEndDate(query.getEnd());
         loadEvents();
         return visitsCalendarDc.getItems().stream().map(this::toEntry);
     }
@@ -137,12 +139,8 @@ public class VisitListView extends StandardListView<Visit> {
                 .navigate(navigationMode, referenceDate);
 
         loadEvents();
-
-//        calendar.getEntryProvider().refreshAll();
     }
     private void change(CalendarMode calendarMode, CalendarNavigationMode navigationMode) {
-
-//        calendar.getEntryProvider().refreshAll();
     }
     private Entry toEntry(Visit visit) {
         Entry entry = new Entry(visit.getId().toString());
