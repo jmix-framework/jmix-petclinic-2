@@ -27,7 +27,9 @@ import org.vaadin.stefan.fullcalendar.dataprovider.EntryQuery;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.YearMonth;
+import java.util.Collection;
 import java.util.EnumSet;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Stream;
 
@@ -47,7 +49,7 @@ public class VisitNewListView extends StandardListView<Visit> {
     @Autowired
     private DialogWindows dialogWindows;
     @ViewComponent
-    private JmixCheckboxGroup visitTypeField;
+    private JmixCheckboxGroup<VisitType> visitTypeField;
     @Autowired
     protected CalendarNavigators calendarNavigators;
     @ViewComponent
@@ -168,8 +170,16 @@ public class VisitNewListView extends StandardListView<Visit> {
     }
 
     @Subscribe("calendarViewMode")
-    public void onCalendarViewModeComponentValueChange(final AbstractField.ComponentValueChangeEvent<JmixSelect, CalendarViewMode> event) {
+    public void onCalendarViewModeComponentValueChange(final AbstractField.ComponentValueChangeEvent<JmixSelect<CalendarViewMode>, CalendarViewMode> event) {
         CalendarViewMode calendarViewMode = event.getValue();
         fullCalendar.changeView(calendarViewMode.getCalendarView());
+    }
+
+    @Subscribe("visitTypeField")
+    public void onVisitTypeFieldComponentValueChange(final AbstractField.ComponentValueChangeEvent<JmixCheckboxGroup, Set<VisitType>> event) {
+        visitsCalendarDl.setParameter("type", event.getValue());
+        if (fullCalendar != null) {
+            fullCalendar.getEntryProvider().refreshAll();
+        }
     }
 }
