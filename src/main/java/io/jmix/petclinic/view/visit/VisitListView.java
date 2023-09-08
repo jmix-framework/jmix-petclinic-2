@@ -7,7 +7,9 @@ import io.jmix.core.TimeSource;
 import io.jmix.core.metamodel.datatype.DatatypeFormatter;
 import io.jmix.core.security.CurrentAuthentication;
 import io.jmix.flowui.DialogWindows;
+import io.jmix.flowui.component.SupportsTypedValue;
 import io.jmix.flowui.component.checkboxgroup.JmixCheckboxGroup;
+import io.jmix.flowui.component.datepicker.TypedDatePicker;
 import io.jmix.flowui.component.radiobuttongroup.JmixRadioButtonGroup;
 import io.jmix.flowui.kit.action.ActionPerformedEvent;
 import io.jmix.flowui.model.CollectionContainer;
@@ -69,6 +71,8 @@ public class VisitListView extends StandardListView<Visit> {
     private DatatypeFormatter datatypeFormatter;
     @ViewComponent
     private Label calendarTitle;
+    @ViewComponent
+    private TypedDatePicker<LocalDate> calendarNavigator;
 
     @Subscribe
     public void onInit(final InitEvent event) {
@@ -108,10 +112,17 @@ public class VisitListView extends StandardListView<Visit> {
     }
 
     private Stream<Entry> reloadCalendar(EntryQuery query) {
-        calendar.setStartDate(query.getStart());
-        calendar.setEndDate(query.getEnd());
+//        calendar.setStartDate(query.getStart());
+//        calendar.setEndDate(query.getEnd());
         loadEvents();
         return visitsCalendarDc.getItems().stream().map(this::toEntry);
+    }
+
+
+    private void loadEvents() {
+        visitsCalendarDl.setParameter("visitStart", calendar.getStartDate());
+        visitsCalendarDl.setParameter("visitEnd", calendar.getEndDate());
+        visitsCalendarDl.load();
     }
 
     private void initTypeFilter() {
@@ -125,22 +136,22 @@ public class VisitListView extends StandardListView<Visit> {
         current(CalendarMode.WEEK);
     }
     private void current(CalendarMode calendarMode) {
-        change(calendarMode, CalendarNavigationMode.AT_DATE, timeSource.now().toLocalDate());
+        change(calendarMode, AT_DATE, timeSource.now().toLocalDate());
     }
     private void change(CalendarMode calendarMode, CalendarNavigationMode navigationMode, LocalDate referenceDate) {
         calendarModeField.setValue(calendarMode);
 
         calendarNavigators
                 .forMode(
-                        CalendarScreenAdjustment.of(calendar, calendarTitle),
+                        CalendarScreenAdjustment.of(calendar, calendarNavigator, calendarTitle),
                         datatypeFormatter,
                         calendarMode
                 )
                 .navigate(navigationMode, referenceDate);
 
         loadEvents();
-    }
-    private void change(CalendarMode calendarMode, CalendarNavigationMode navigationMode) {
+
+        calendar.getCalendar().getEntryProvider().refreshAll();
     }
     private Entry toEntry(Visit visit) {
         Entry entry = new Entry(visit.getId().toString());
@@ -153,36 +164,31 @@ public class VisitListView extends StandardListView<Visit> {
 
     @Subscribe("calendarHome")
     public void onCalendarHome(final ActionPerformedEvent event) {
-
+        current(calendarModeField.getValue());
     }
+
 
     @Subscribe("calendarPrev")
     public void onCalendarPrev(final ActionPerformedEvent event) {
-        calendar.getCalendar().previous();
+        previous(calendarModeField.getValue());
     }
 
     @Subscribe("calendarNext")
     public void onCalendarNext(final ActionPerformedEvent event) {
-        calendar.getCalendar().next();
+        next(calendarModeField.getValue());
     }
 
     private void next(CalendarMode calendarMode) {
-        change(calendarMode, NEXT);
+        change(calendarMode, NEXT, calendarNavigator.getValue());
     }
 
     private void previous(CalendarMode calendarMode) {
-        change(calendarMode, PREVIOUS);
+        change(calendarMode, PREVIOUS, calendarNavigator.getValue());
     }
 
     @Subscribe("calendarModeField")
     public void onCalendarModeFieldComponentValueChange(final AbstractField.ComponentValueChangeEvent<JmixRadioButtonGroup<CalendarMode>, CalendarMode> event) {
         calendar.getCalendar().changeView(event.getValue().getCalendarView());
-    }
-
-    private void loadEvents() {
-        visitsCalendarDl.setParameter("visitStart", calendar.getStartDate());
-        visitsCalendarDl.setParameter("visitEnd", calendar.getEndDate());
-        visitsCalendarDl.load();
     }
 
     @Subscribe("visitTypeField")
@@ -199,6 +205,18 @@ public class VisitListView extends StandardListView<Visit> {
 
         if (event.isFromClient()) {
             loadEvents();
+            calendar.getCalendar().getEntryProvider().refreshAll();
+        }
+    }
+
+
+    private void atDate(CalendarMode calendarMode, LocalDate date) {
+        change(calendarMode, AT_DATE, date);
+    }
+    @Subscribe("calendarNavigator")
+    public void onCalendarNavigatorTypedValueChange(final SupportsTypedValue.TypedValueChangeEvent<TypedDatePicker<LocalDate>, LocalDate> event) {
+        if (event.isFromClient()) {
+            atDate(calendarModeField.getValue(), event.getValue());
         }
     }
 }
