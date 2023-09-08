@@ -6,7 +6,6 @@
         <item view="petclinic_Pet.list" title="msg://io.jmix.petclinic.view.pet.pet/petListView.title"/>
         <item view="petclinic_Owner.list" title="msg://io.jmix.petclinic.view.owner.owner/ownerListView.title"/>
         <item view="petclinic_Visit.list" title="msg://io.jmix.petclinic.view.visit/visitListView.title"/>
-        <item view="petclinic_Visit.newList" title="msg://io.jmix.petclinic.view.visit/visitNewListView.title"/>
     </menu>
 
     <menu id="application-masterdata" title="msg://io.jmix.petclinic/menu.application-masterdata.title" opened="false">
