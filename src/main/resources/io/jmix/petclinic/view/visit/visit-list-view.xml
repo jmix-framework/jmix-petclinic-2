@@ -3,7 +3,7 @@
       xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
       title="msg://visitListView.title"
       focusComponent="visitsDataGrid">
-    <data readOnly="true">
+    <data>
         <collection id="visitsDc"
                     class="io.jmix.petclinic.entity.visit.Visit">
             <fetchPlan extends="_base">

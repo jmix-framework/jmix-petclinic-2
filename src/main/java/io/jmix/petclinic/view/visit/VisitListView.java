@@ -11,6 +11,7 @@ import io.jmix.flowui.component.select.JmixSelect;
 import io.jmix.flowui.kit.action.ActionPerformedEvent;
 import io.jmix.flowui.model.CollectionContainer;
 import io.jmix.flowui.model.CollectionLoader;
+import io.jmix.flowui.model.DataContext;
 import io.jmix.flowui.view.*;
 import io.jmix.petclinic.entity.visit.Visit;
 import io.jmix.petclinic.entity.visit.VisitType;
@@ -22,8 +23,10 @@ import org.vaadin.stefan.fullcalendar.dataprovider.CallbackEntryProvider;
 import org.vaadin.stefan.fullcalendar.dataprovider.EntryProvider;
 import org.vaadin.stefan.fullcalendar.dataprovider.EntryQuery;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
+import java.time.ZoneOffset;
 import java.util.EnumSet;
 import java.util.Set;
 import java.util.UUID;
@@ -55,6 +58,8 @@ public class VisitListView extends StandardListView<Visit> {
     private JmixSelect<CalendarViewMode> calendarViewMode;
     @ViewComponent
     private H4 calendarTitle;
+    @ViewComponent
+    private DataContext dataContext;
 
     @Subscribe
     public void onInit(final InitEvent event) {
@@ -79,28 +84,35 @@ public class VisitListView extends StandardListView<Visit> {
 
         fullCalendar.setEntryProvider(entryProvider);
 
-        fullCalendar.addEntryClickedListener(e -> {
-            Visit visit = visitsCalendarDc.getItem(UUID.fromString(e.getEntry().getId()));
-            dialogWindows.detail(this, Visit.class)
-                    .editEntity(visit)
-                    .open();
-        });
-
         fullCalendar.setNumberClickable(true);
-        fullCalendar.addDayNumberClickedListener(e -> {
-            setCalendarViewMode(CalendarViewMode.DAY);
-            fullCalendar.gotoDate(e.getDate());
-        });
+        fullCalendar.addDayNumberClickedListener(this::openDayView);
+        fullCalendar.addWeekNumberClickedListener(this::openWeekView);
 
-        fullCalendar.addWeekNumberClickedListener(e -> {
-            setCalendarViewMode(CalendarViewMode.WEEK);
-            fullCalendar.gotoDate(e.getDate());
-        });
+        fullCalendar.addTimeslotClickedListener(this::createVisit);
+        fullCalendar.addEntryClickedListener(this::editVisit);
+        fullCalendar.addEntryDroppedListener(this::updateVisit);
+        fullCalendar.addEntryResizedListener(this::updateVisit);
 
         fullCalendar.addDatesRenderedListener(e -> {
             String title = calculateTitle(e);
             calendarTitle.setText(title);
         });
+    }
+
+    private void updateVisit(EntryTimeChangedEvent e) {
+        Entry entry = e.getEntry();
+        visitsCalendarDc.getMutableItems().stream()
+                .filter(it -> it.getId().equals(UUID.fromString(entry.getId())))
+                .findFirst()
+                .ifPresent(it ->  {
+                    it.setVisitStart(parseDate(e, "start"));
+                    it.setVisitEnd(parseDate(e, "end"));
+                    dataContext.save();
+                });
+    }
+
+    private static LocalDateTime parseDate(EntryTimeChangedEvent e, String key) {
+        return Instant.parse(e.getJsonObject().get(key).asString()).atOffset(ZoneOffset.UTC).toLocalDateTime();
     }
 
     private String calculateTitle(DatesRenderedEvent e) {
@@ -176,7 +188,42 @@ public class VisitListView extends StandardListView<Visit> {
     public void onVisitTypeFieldComponentValueChange(final AbstractField.ComponentValueChangeEvent<JmixCheckboxGroup, Set<VisitType>> event) {
         visitsCalendarDl.setParameter("type", event.getValue());
         if (fullCalendar != null) {
-            fullCalendar.getEntryProvider().refreshAll();
+            refreshCalendar();
         }
+    }
+
+    private void refreshCalendar() {
+        fullCalendar.getEntryProvider().refreshAll();
+    }
+
+    private void createVisit(TimeslotClickedEvent e) {
+        Visit visit = dataContext.create(Visit.class);
+        visit.setVisitStart(e.getDateTime());
+        visit.setVisitEnd(e.getDateTime().plusMinutes(30L));
+        dialogWindows.detail(this, Visit.class)
+                .newEntity(visit)
+                .withAfterCloseListener((DialogWindow.AfterCloseEvent<View<?>> afterCloseEvent) -> {
+                    if (afterCloseEvent.closedWith(StandardOutcome.SAVE)) {
+                        refreshCalendar();
+                    }
+                })
+                .open();
+    }
+
+    private void openWeekView(WeekNumberClickedEvent e) {
+        setCalendarViewMode(CalendarViewMode.WEEK);
+        fullCalendar.gotoDate(e.getDate());
+    }
+
+    private void openDayView(DayNumberClickedEvent e) {
+        setCalendarViewMode(CalendarViewMode.DAY);
+        fullCalendar.gotoDate(e.getDate());
+    }
+
+    private void editVisit(EntryClickedEvent e) {
+        Visit visit = visitsCalendarDc.getItem(UUID.fromString(e.getEntry().getId()));
+        dialogWindows.detail(this, Visit.class)
+                .editEntity(visit)
+                .open();
     }
 }
