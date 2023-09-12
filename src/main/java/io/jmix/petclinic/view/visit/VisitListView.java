@@ -49,8 +49,6 @@ public class VisitListView extends StandardListView<Visit> {
     private DialogWindows dialogWindows;
     @ViewComponent
     private JmixCheckboxGroup<VisitType> visitTypeField;
-    @Autowired
-    protected CalendarNavigators calendarNavigators;
     @ViewComponent
     private CollectionLoader<Visit> visitsCalendarDl;
     private FullCalendar fullCalendar;
