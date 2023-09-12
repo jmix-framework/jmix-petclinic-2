@@ -3,7 +3,7 @@
       xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
       title="msg://visitListView.title"
       focusComponent="visitsDataGrid">
-    <data readOnly="true">
+    <data>
         <collection id="visitsDc"
                     class="io.jmix.petclinic.entity.visit.Visit">
             <fetchPlan extends="_base">
@@ -52,21 +52,20 @@
                 <vbox width="100%" height="100%">
                     <split width="100%" themeNames="splitter-spacing" splitterPosition="16" height="100%">
                         <vbox id="filterBox">
-                            <details summaryText="msg://calendarMode" width="100%" opened="true">
-                                <radioButtonGroup id="calendarModeField"
-                                                  itemsEnum="io.jmix.petclinic.view.visit.calendar.CalendarMode"/>
-                            </details>
                             <details summaryText="msg://visitType" width="100%" opened="true">
                                 <checkboxGroup id="visitTypeField"
                                                themeNames="vertical"/>
                             </details>
                         </vbox>
                         <vbox id="calendarBox">
-                            <hbox id="calendarButtonsPanel" classNames="buttons-panel">
+                            <hbox id="calendarButtonsPanel" classNames="buttons-panel" expand="spacer" alignItems="BASELINE">
                                 <button id="homeBtn" action="calendarHome"/>
                                 <button id="prevBtn" action="calendarPrev"/>
                                 <button id="nextBtn" action="calendarNext"/>
-                                <label id="calendarTitle" />
+                                <h4 id="calendarTitle" />
+                                <label id="spacer" />
+                                <select itemsEnum="io.jmix.petclinic.view.visit.CalendarViewMode"
+                                        id="calendarViewMode" />
                             </hbox>
                             <vbox id="calenderWrapper" width="100%" />
                         </vbox>

@@ -8,3 +8,46 @@ html {
     --lumo-primary-text-color: var(--lumo-primary-color);
 
 }
+
+.event-red {
+    border: 1px solid #DF6679 !important;
+    background-color: #FFC8D0
+}
+a.event-red .fc-event-main {
+    color: #DF6679 !important;
+}
+
+.event-green {
+    border: 1px solid #23BA75 !important;
+    background-color: #BAF2D8
+}
+a.event-green .fc-event-main {
+    color: #23BA75 !important;
+}
+
+.event-yellow {
+    border: 1px solid #E3A023 !important;
+    background-color: #FFE2AD
+}
+a.event-yellow .fc-event-main {
+    color: #E3A023 !important;
+}
+
+
+.event-purple {
+    border: 1px solid #6E64B9 !important;
+    background-color: #D6D0FF
+}
+a.event-purple .fc-event-main {
+    color: #6E64B9 !important;
+}
+
+
+.event-blue {
+    border: 1px solid #249FAF !important;
+    background-color: #BAF7FF
+}
+
+a.event-blue .fc-event-main {
+    color: #249FAF !important;
+}

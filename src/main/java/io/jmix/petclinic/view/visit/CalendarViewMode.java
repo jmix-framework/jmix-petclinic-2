@@ -1,4 +1,4 @@
-package io.jmix.petclinic.view.visit.calendar;
+package io.jmix.petclinic.view.visit;
 
 import io.jmix.core.metamodel.datatype.EnumClass;
 
@@ -7,16 +7,17 @@ import org.vaadin.stefan.fullcalendar.CalendarView;
 import org.vaadin.stefan.fullcalendar.CalendarViewImpl;
 
 
-public enum CalendarMode implements EnumClass<String> {
+public enum CalendarViewMode implements EnumClass<String> {
 
-    DAY("DAY", CalendarViewImpl.DAY_GRID_DAY),
-    WEEK("WEEK", CalendarViewImpl.DAY_GRID_WEEK),
-    MONTH("MONTH", CalendarViewImpl.DAY_GRID_MONTH);
+    MONTH("dayGridMonth", CalendarViewImpl.DAY_GRID_MONTH),
+
+    DAY("timeGridDay", CalendarViewImpl.TIME_GRID_DAY),
+    WEEK("timeGridWeek", CalendarViewImpl.TIME_GRID_WEEK);
 
     private final String id;
     private final CalendarView calendarView;
 
-    CalendarMode(String id, CalendarView calendarView) {
+    CalendarViewMode(String id, CalendarView calendarView) {
         this.id = id;
         this.calendarView = calendarView;
     }
@@ -26,8 +27,8 @@ public enum CalendarMode implements EnumClass<String> {
     }
 
     @Nullable
-    public static CalendarMode fromId(String id) {
-        for (CalendarMode at : CalendarMode.values()) {
+    public static CalendarViewMode fromId(String id) {
+        for (CalendarViewMode at : CalendarViewMode.values()) {
             if (at.getId().equals(id)) {
                 return at;
             }
