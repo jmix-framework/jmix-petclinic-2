@@ -32,7 +32,7 @@
         </genericFilter>
         <hbox id="buttonsPanel" classNames="buttons-panel">
             <button id="createBtn" action="ownersDataGrid.create"/>
-            <button id="editBtn" action="ownersDataGrid.edit"/>
+            <button id="readBtn" action="ownersDataGrid.read"/>
             <button id="removeBtn" action="ownersDataGrid.remove"/>
             <button id="excelExportBtn" action="ownersDataGrid.excelExport"/>
             <simplePagination id="pagination" dataLoader="ownersDl"/>
@@ -43,7 +43,7 @@
                   dataContainer="ownersDc">
             <actions>
                 <action id="create" type="list_create"/>
-                <action id="edit" type="list_edit"/>
+                <action id="read" type="list_read"/>
                 <action id="remove" type="list_remove"/>
                 <action id="excelExport" type="grdexp_excelExport"/>
             </actions>

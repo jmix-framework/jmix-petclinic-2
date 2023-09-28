@@ -20,6 +20,7 @@
     <actions>
         <action id="saveAction" type="detail_saveClose"/>
         <action id="closeAction" type="detail_close"/>
+        <action id="enableEditingAction" type="detail_enableEditing"/>
     </actions>
     <layout>
         <h3 id="nameHeader"/>
@@ -70,6 +71,7 @@
         <hbox id="detailActions">
             <button id="saveAndCloseBtn" action="saveAction"/>
             <button id="closeBtn" action="closeAction"/>
+            <button id="enableEditingBtn" action="enableEditingAction"/>
         </hbox>
     </layout>
 </view>
