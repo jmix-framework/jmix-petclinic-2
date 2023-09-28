@@ -1,20 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <menu-config xmlns="http://jmix.io/schema/flowui/menu">
 
-    <menu id="application" title="msg://io.jmix.petclinic/menu.application.title" opened="true">
-        <item view="User.list" title="msg://io.jmix.petclinic.view.user/UserListView.title"/>
+    <menu opened="true" id="petclinic" title="msg://io.jmix.petclinic/menu.petclinic.title" icon="CLIPBOARD_PULSE">
         <item view="petclinic_Pet.list" title="msg://io.jmix.petclinic.view.pet.pet/petListView.title"/>
         <item view="petclinic_Owner.list" title="msg://io.jmix.petclinic.view.owner.owner/ownerListView.title"/>
         <item view="petclinic_Visit.list" title="msg://io.jmix.petclinic.view.visit/visitListView.title"/>
     </menu>
-
-    <menu id="application-masterdata" title="msg://io.jmix.petclinic/menu.application-masterdata.title" opened="false">
-
+    <menu id="application-masterdata" title="msg://io.jmix.petclinic/menu.application-masterdata.title" icon="ARCHIVE">
         <item view="petclinic_Specialty.list"
               title="msg://io.jmix.petclinic.view.veterinarian.specialty/specialtyListView.title"/>
         <item view="petclinic_Veterinarian.list"
               title="msg://io.jmix.petclinic.view.veterinarian.veterinarian/veterinarianListView.title"/>
         <item view="petclinic_PetType.list" title="msg://io.jmix.petclinic.view.pet.pettype/petTypeListView.title"/>
     </menu>
-
+    <menu id="security" title="msg://io.jmix.petclinic/menu.security.title" icon="KEY_O">
+        <item view="User.list" title="msg://io.jmix.petclinic.view.user/UserListView.title"/>
+        <item view="sec_ResourceRoleModel.list"
+              title="msg://io.jmix.securityflowui.view.resourcerole/resourceRoleModelListView.menu"/>
+        <item view="sec_RowLevelRoleModel.list"
+              title="msg://io.jmix.securityflowui.view.rowlevelrole/rowLevelRoleModelListView.menu"/>
+    </menu>
+    <menu id="datatools" title="msg://io.jmix.petclinic/menu.datatools.title" icon="DATABASE">
+        <item view="datatl_entityInspectorListView"
+              title="msg://io.jmix.datatoolsflowui.view.entityinspector/listTitle"/>
+    </menu>
 </menu-config>
