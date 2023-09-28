@@ -34,6 +34,7 @@
             <button id="createBtn" action="ownersDataGrid.create"/>
             <button id="editBtn" action="ownersDataGrid.edit"/>
             <button id="removeBtn" action="ownersDataGrid.remove"/>
+            <button id="excelExportBtn" action="ownersDataGrid.excelExport"/>
             <simplePagination id="pagination" dataLoader="ownersDl"/>
         </hbox>
         <dataGrid id="ownersDataGrid"
@@ -44,6 +45,7 @@
                 <action id="create" type="list_create"/>
                 <action id="edit" type="list_edit"/>
                 <action id="remove" type="list_remove"/>
+                <action id="excelExport" type="grdexp_excelExport"/>
             </actions>
             <columns>
                 <column property="firstName"/>

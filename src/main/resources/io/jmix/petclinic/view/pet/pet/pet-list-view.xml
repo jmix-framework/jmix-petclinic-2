@@ -37,6 +37,7 @@
             <button id="createBtn" action="petsDataGrid.create"/>
             <button id="editBtn" action="petsDataGrid.edit"/>
             <button id="removeBtn" action="petsDataGrid.remove"/>
+            <button id="excelExportBtn" action="petsDataGrid.excelExport"/>
             <simplePagination id="pagination" dataLoader="petsDl"/>
         </hbox>
         <dataGrid id="petsDataGrid"
@@ -47,6 +48,7 @@
                 <action id="create" type="list_create" />
                 <action id="edit" type="list_edit"/>
                 <action id="remove" type="list_remove"/>
+                <action id="excelExport" type="grdexp_excelExport"/>
             </actions>
             <columns>
                 <column property="name"/>
