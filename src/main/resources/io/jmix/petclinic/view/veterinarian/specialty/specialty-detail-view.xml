@@ -17,8 +17,8 @@
         <action id="closeAction" type="detail_close"/>
     </actions>
     <layout>
-        <formLayout id="form" dataContainer="specialtyDc">
-            <textField id="nameField" property="name"/>
+        <formLayout id="form" dataContainer="specialtyDc" minWidth="300px">
+            <textField id="nameField" minWidth="300px" property="name"/>
         </formLayout>
         <hbox id="detailActions">
             <button id="saveAndCloseBtn" action="saveAction"/>
