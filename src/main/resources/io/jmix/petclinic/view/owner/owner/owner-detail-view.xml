@@ -22,42 +22,51 @@
         <action id="closeAction" type="detail_close"/>
     </actions>
     <layout>
-        <formLayout id="form" dataContainer="ownerDc">
-            <textField id="firstNameField" property="firstName"/>
-            <textField id="lastNameField" property="lastName"/>
-            <textField id="addressField" property="address"/>
-            <textField id="cityField" property="city"/>
-            <textField id="emailField" property="email"/>
-            <textField id="telephoneField" property="telephone"/>
-        </formLayout>
+        <h3 id="nameHeader"/>
+        <tabSheet width="100%">
+            <tab id="detailsTab" label="msg://details">
+                <formLayout id="form" dataContainer="ownerDc">
+                    <textField id="firstNameField" property="firstName"/>
+                    <textField id="lastNameField" property="lastName"/>
+                    <textField id="addressField" property="address"/>
+                    <textField id="cityField" property="city"/>
+                    <textField id="emailField" property="email"/>
+                    <textField id="telephoneField" property="telephone"/>
+                </formLayout>
+            </tab>
+            <tab id="petsTab" label="msg://io.jmix.petclinic.entity.owner/Owner.pets">
+                <vbox width="100%">
+                    <hbox id="buttonsPanel" classNames="buttons-panel">
+                        <button action="petsDataGrid.create"/>
+                        <button action="petsDataGrid.edit"/>
+                        <button action="petsDataGrid.remove"/>
+                    </hbox>
+                    <dataGrid id="petsDataGrid" dataContainer="petsDc" width="100%" minHeight="20em">
+                        <actions>
+                            <action id="create" type="list_create">
+                                <properties>
+                                    <property name="openMode" value="DIALOG"/>
+                                </properties>
+                            </action>
+                            <action id="edit" type="list_edit">
+                                <properties>
+                                    <property name="openMode" value="DIALOG"/>
+                                </properties>
+                            </action>
+                            <action id="remove" type="list_remove"/>
+                        </actions>
+                        <columns>
+                            <column property="name"/>
+                            <column property="identificationNumber"/>
+                            <column property="birthdate"/>
+                            <column property="type"/>
+                        </columns>
+                    </dataGrid>
+                </vbox>
+            </tab>
+        </tabSheet>
 
-        <h3 text="msg://io.jmix.petclinic.entity.owner/Owner.pets" />
-        <hbox id="buttonsPanel" classNames="buttons-panel">
-            <button action="petsDataGrid.create"/>
-            <button action="petsDataGrid.edit"/>
-            <button action="petsDataGrid.remove"/>
-        </hbox>
-        <dataGrid id="petsDataGrid" dataContainer="petsDc" width="100%" minHeight="20em">
-            <actions>
-                <action id="create" type="list_create">
-                    <properties>
-                        <property name="openMode" value="DIALOG"/>
-                    </properties>
-                </action>
-                <action id="edit" type="list_edit">
-                    <properties>
-                        <property name="openMode" value="DIALOG"/>
-                    </properties>
-                </action>
-                <action id="remove" type="list_remove"/>
-            </actions>
-            <columns>
-                <column property="name"/>
-                <column property="identificationNumber"/>
-                <column property="birthdate"/>
-                <column property="type"/>
-            </columns>
-        </dataGrid>
+
         <hbox id="detailActions">
             <button id="saveAndCloseBtn" action="saveAction"/>
             <button id="closeBtn" action="closeAction"/>

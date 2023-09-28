@@ -3,12 +3,11 @@ package io.jmix.petclinic.entity;
 import io.jmix.core.annotation.DeletedBy;
 import io.jmix.core.annotation.DeletedDate;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
+import io.jmix.core.metamodel.annotation.DependsOnProperties;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.Version;
+import io.jmix.core.metamodel.annotation.JmixProperty;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -27,7 +26,6 @@ public class Person {
     private UUID id;
 
     @NotNull
-    @InstanceName
     @Column(name = "FIRST_NAME", nullable = false)
     private String firstName;
 
@@ -61,6 +59,20 @@ public class Person {
     @DeletedDate
     @Column(name = "DELETED_DATE")
     private OffsetDateTime deletedDate;
+
+
+    @InstanceName
+    @DependsOnProperties({"firstName", "lastName"})
+    @JmixProperty
+    public String getFullName() {
+        String name = firstName;
+
+        if (lastName != null) {
+            name += " " + lastName;
+        }
+
+        return name;
+    }
 
     public String getLastName() {
         return lastName;
