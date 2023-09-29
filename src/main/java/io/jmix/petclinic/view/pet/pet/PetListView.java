@@ -1,5 +1,6 @@
 package io.jmix.petclinic.view.pet.pet;
 
+import io.jmix.flowui.kit.action.ActionPerformedEvent;
 import io.jmix.petclinic.entity.pet.Pet;
 
 import io.jmix.petclinic.view.main.MainView;
@@ -13,4 +14,9 @@ import io.jmix.flowui.view.*;
 @LookupComponent("petsDataGrid")
 @DialogMode(width = "50em")
 public class PetListView extends StandardListView<Pet> {
+    @Subscribe("clearFilterAction")
+    public void onClearFilterAction(final ActionPerformedEvent event) {
+
+    }
+
 }

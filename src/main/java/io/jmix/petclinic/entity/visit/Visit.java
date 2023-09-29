@@ -22,6 +22,9 @@ import java.time.OffsetDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
+import static io.jmix.petclinic.entity.visit.VisitTreatmentStatus.DONE;
+import static io.jmix.petclinic.entity.visit.VisitTreatmentStatus.IN_PROGRESS;
+
 @JmixEntity
 @Table(name = "PETCLINIC_VISIT", indexes = {
         @Index(name = "IDX_PETCLINIC_VISIT_ASSIGNED_NURSE", columnList = "ASSIGNED_NURSE_ID"),
@@ -224,4 +227,18 @@ public class Visit {
     public void setId(UUID id) {
         this.id = id;
     }
+
+    public boolean hasStarted() {
+        return inTreatmentStatus(IN_PROGRESS) || inTreatmentStatus(DONE);
+    }
+
+
+    public boolean hasFinished() {
+        return inTreatmentStatus(DONE);
+    }
+
+    private boolean inTreatmentStatus(VisitTreatmentStatus visitTreatmentStatus) {
+        return getTreatmentStatus().equals(visitTreatmentStatus);
+    }
+
 }
