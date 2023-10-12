@@ -51,3 +51,16 @@ a.event-purple .fc-event-main {
 a.event-blue .fc-event-main {
     color: #249FAF !important;
 }
+
+
+.jmix-login-main-layout {
+    background-image: url("/images/login-background.svg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
+.login-image {
+    padding-top: 300px;
+}
