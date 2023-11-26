@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://usageHelpView.title">
+    <layout>
+        <html file="io/jmix/petclinic/view/usagehelp/usage-help.html"/>
+    </layout>
+</view>

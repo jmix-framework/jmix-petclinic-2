@@ -15,5 +15,6 @@
             <errorMessage title="msg://loginForm.errorTitle"
                           message="msg://loginForm.badCredentials"/>
         </loginForm>
+        <button text="Usage scenarios" themeNames="contrast, primary" id="usageBtn"/>
     </layout>
 </view>

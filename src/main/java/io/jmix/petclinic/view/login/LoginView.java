@@ -1,5 +1,6 @@
 package io.jmix.petclinic.view.login;
 
+import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.login.AbstractLogin.LoginEvent;
 import com.vaadin.flow.component.login.LoginI18n;
@@ -9,10 +10,13 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import io.jmix.core.MessageTools;
 import io.jmix.core.security.AccessDeniedException;
+import io.jmix.flowui.DialogWindows;
 import io.jmix.flowui.component.loginform.JmixLoginForm;
 import io.jmix.flowui.kit.component.ComponentUtils;
+import io.jmix.flowui.kit.component.button.JmixButton;
 import io.jmix.flowui.kit.component.loginform.JmixLoginI18n;
 import io.jmix.flowui.view.*;
+import io.jmix.petclinic.view.usagehelp.UsageHelpView;
 import io.jmix.securityflowui.authentication.AuthDetails;
 import io.jmix.securityflowui.authentication.LoginViewSupport;
 import org.apache.commons.collections4.MapUtils;
@@ -49,6 +53,9 @@ public class LoginView extends StandardView implements LocaleChangeObserver {
 
     @Value("${ui.login.defaultPassword:}")
     private String defaultPassword;
+
+    @Autowired
+    private DialogWindows dialogWindows;
 
     @Subscribe
     public void onInit(final InitEvent event) {
@@ -108,5 +115,10 @@ public class LoginView extends StandardView implements LocaleChangeObserver {
         loginI18n.setErrorMessage(errorMessage);
 
         login.setI18n(loginI18n);
+    }
+
+    @Subscribe(id = "usageBtn", subject = "clickListener")
+    public void onUsageBtnClick(final ClickEvent<JmixButton> event) {
+        dialogWindows.view(this, UsageHelpView.class).open();
     }
 }
