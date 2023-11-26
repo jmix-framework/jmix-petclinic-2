@@ -9,6 +9,7 @@ import io.jmix.flowui.app.main.StandardMainView;
 import io.jmix.flowui.view.Subscribe;
 import io.jmix.flowui.view.ViewController;
 import io.jmix.flowui.view.ViewDescriptor;
+import io.jmix.petclinic.online.OnlineDemoDataCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Route("")
@@ -18,6 +19,9 @@ public class MainView extends StandardMainView {
 
     @Autowired
     private UiComponents uiComponents;
+
+    @Autowired(required = false)
+    private OnlineDemoDataCreator onlineDemoDataCreator;
 
     @Subscribe
     public void onInit(final InitEvent event) {
@@ -31,5 +35,12 @@ public class MainView extends StandardMainView {
         verticalLayout.setHeightFull();
         verticalLayout.setWidthFull();
         getContent().showRouterLayoutContent(verticalLayout);
+    }
+
+    @Subscribe
+    public void onReady(final ReadyEvent event) {
+        if (onlineDemoDataCreator != null) {
+            onlineDemoDataCreator.createDemoData();
+        }
     }
 }

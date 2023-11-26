@@ -58,6 +58,8 @@ dependencies {
     }
     testImplementation 'io.jmix.flowui:jmix-flowui-test-assist'
     implementation 'io.jmix.gridexport:jmix-gridexport-flowui-starter'
+
+    implementation 'org.apache.commons:commons-dbcp2'
 }
 
 test {
