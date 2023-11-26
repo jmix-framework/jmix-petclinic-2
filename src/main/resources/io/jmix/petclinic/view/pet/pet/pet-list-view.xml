@@ -34,6 +34,7 @@
             <propertyFilter component="ownerFilter"/>
             <pagination component="pagination"/>
         </urlQueryParameters>
+        <settings auto="true"/>
     </facets>
     <actions>
         <action id="selectAction" type="lookup_select"/>
@@ -41,45 +42,39 @@
         <action id="clearFilterAction" text="msg://clearFilter" icon="ERASER"/>
     </actions>
     <layout>
-        <tabSheet id="filterTabSheet" width="100%">
-            <tab id="defaultFilterTab" label="msg://defaultFilter">
-                <hbox width="100%" alignItems="BASELINE">
-                    <propertyFilter
-                            id="identificationNumberFilter"
-                            property="identificationNumber"
-                            operation="CONTAINS"
-                            dataLoader="petsDl"
-                            labelPosition="TOP"
-                            label="msg://io.jmix.petclinic.entity.pet/Pet.identificationNumber"
-                    />
-                    <propertyFilter
-                            id="typeFilter"
-                            property="type"
-                            operation="EQUAL"
-                            dataLoader="petsDl"
-                            labelPosition="TOP"
-                            label="msg://io.jmix.petclinic.entity.pet/Pet.type"
-                    />
-                    <propertyFilter
-                            id="ownerFilter"
-                            property="owner"
-                            operation="EQUAL"
-                            dataLoader="petsDl"
-                            labelPosition="TOP"
-                            label="msg://io.jmix.petclinic.entity.pet/Pet.owner">
+        <hbox width="100%" alignItems="BASELINE" classNames="buttons-panel">
+            <propertyFilter
+                    id="identificationNumberFilter"
+                    property="identificationNumber"
+                    operation="CONTAINS"
+                    dataLoader="petsDl"
+                    labelPosition="TOP"
+                    label="msg://io.jmix.petclinic.entity.pet/Pet.identificationNumber"
+            />
+            <propertyFilter
+                    id="typeFilter"
+                    property="type"
+                    operation="EQUAL"
+                    dataLoader="petsDl"
+                    labelPosition="TOP"
+                    label="msg://io.jmix.petclinic.entity.pet/Pet.type"
+            />
+            <propertyFilter
+                    id="ownerFilter"
+                    property="owner"
+                    operation="EQUAL"
+                    dataLoader="petsDl"
+                    labelPosition="TOP"
+                    label="msg://io.jmix.petclinic.entity.pet/Pet.owner">
 
-                        <entityComboBox metaClass="petclinic_Owner" itemsContainer="ownersDc" />
-                    </propertyFilter>
-                    <button id="clearFilterBtn" action="clearFilterAction" />
-                </hbox>
-            </tab>
-            <tab id="extendedFilterTab" label="msg://extendedFilter">
-                <genericFilter id="genericFilter"
-                               dataLoader="petsDl">
-                    <properties include=".*"/>
-                </genericFilter>
-            </tab>
-        </tabSheet>
+                <entityComboBox metaClass="petclinic_Owner" itemsContainer="ownersDc" />
+            </propertyFilter>
+            <button id="clearFilterBtn" action="clearFilterAction" />
+        </hbox>
+        <genericFilter id="genericFilter"
+                       dataLoader="petsDl" opened="false" summaryText="Advanced Filter">
+            <properties include=".*"/>
+        </genericFilter>
         <hbox id="buttonsPanel" classNames="buttons-panel">
             <button id="createBtn" action="petsDataGrid.create"/>
             <button id="editBtn" action="petsDataGrid.edit"/>

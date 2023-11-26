@@ -23,6 +23,7 @@
             <genericFilter component="genericFilter"/>
             <pagination component="pagination"/>
         </urlQueryParameters>
+        <settings auto="true"/>
     </facets>
     <layout>
         <genericFilter id="genericFilter"

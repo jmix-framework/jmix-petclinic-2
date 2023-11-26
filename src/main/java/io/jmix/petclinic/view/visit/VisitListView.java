@@ -36,7 +36,6 @@ import java.util.stream.Stream;
 @Route(value = "visits", layout = MainView.class)
 @ViewController("petclinic_Visit.list")
 @ViewDescriptor("visit-list-view.xml")
-@LookupComponent("visitsDataGrid")
 @DialogMode(width = "64em")
 public class VisitListView extends StandardListView<Visit> {
     @ViewComponent

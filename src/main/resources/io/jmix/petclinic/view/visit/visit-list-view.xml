@@ -38,10 +38,9 @@
             <genericFilter component="genericFilter"/>
             <pagination component="pagination"/>
         </urlQueryParameters>
+        <settings auto="true"/>
     </facets>
     <actions>
-        <action id="selectAction" type="lookup_select"/>
-        <action id="discardAction" type="lookup_discard"/>
         <action id="calendarHome" icon="HOME" />
         <action id="calendarPrev" icon="ARROW_CIRCLE_LEFT" />
         <action id="calendarNext" icon="ARROW_CIRCLE_RIGHT" />
@@ -63,15 +62,13 @@
                                 <button id="prevBtn" action="calendarPrev"/>
                                 <button id="nextBtn" action="calendarNext"/>
                                 <h4 id="calendarTitle" />
-                                <label id="spacer" />
+                                <span id="spacer" />
                                 <select itemsEnum="io.jmix.petclinic.view.visit.CalendarViewMode"
                                         id="calendarViewMode" />
                             </hbox>
                             <vbox id="calenderWrapper" width="100%" />
                         </vbox>
                     </split>
-
-
                 </vbox>
             </tab>
             <tab id="allVisitsTab" label="msg://allVisits">
@@ -89,13 +86,14 @@
                     <dataGrid id="visitsDataGrid"
                               width="100%"
                               minHeight="20em"
-                              dataContainer="visitsDc">
+                              dataContainer="visitsDc"
+                              columnReorderingAllowed="true">
                         <actions>
                             <action id="create" type="list_create"/>
                             <action id="edit" type="list_edit"/>
                             <action id="remove" type="list_remove"/>
                         </actions>
-                        <columns>
+                        <columns resizable="true">
                             <column property="pet"/>
                             <column property="type"/>
                             <column property="visitStart"/>
@@ -107,10 +105,5 @@
                 </vbox>
             </tab>
         </tabSheet>
-
-        <hbox id="lookupActions" visible="false">
-            <button id="selectBtn" action="selectAction"/>
-            <button id="discardBtn" action="discardAction"/>
-        </hbox>
     </layout>
 </view>
