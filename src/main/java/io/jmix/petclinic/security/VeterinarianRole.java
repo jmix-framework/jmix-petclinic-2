@@ -12,6 +12,7 @@ import io.jmix.security.model.EntityPolicyAction;
 import io.jmix.security.role.annotation.EntityAttributePolicy;
 import io.jmix.security.role.annotation.EntityPolicy;
 import io.jmix.security.role.annotation.ResourceRole;
+import io.jmix.securityflowui.role.annotation.MenuPolicy;
 import io.jmix.securityflowui.role.annotation.ViewPolicy;
 
 @ResourceRole(name = "Veterinarian", code = "Veterinarian")
@@ -44,6 +45,7 @@ public interface VeterinarianRole {
     @EntityPolicy(entityClass = Veterinarian.class, actions = EntityPolicyAction.ALL)
     void veterinarian();
 
-    @ViewPolicy(viewIds = {"petclinic_Visit.browse", "petclinic_Pet.browse", "petclinic_Owner.browse", "petclinic_Veterinarian.browse", "petclinic_Specialty.browse", "petclinic_PetType.browse", "petclinic_Visit.edit", "petclinic_Veterinarian.edit", "petclinic_Specialty.lookup", "petclinic_Pet.edit", "petclinic_Owner.edit", "petclinic_MainScreen", "petclinic_LoginScreen"})
+    @MenuPolicy(menuIds = {"petclinic_Pet.list", "petclinic_Owner.list", "petclinic_Visit.list", "petclinic_Specialty.list", "petclinic_Veterinarian.list", "petclinic_PetType.list"})
+    @ViewPolicy(viewIds = {"petclinic_Visit.list", "petclinic_Pet.list", "petclinic_Owner.list", "petclinic_Veterinarian.list", "petclinic_Specialty.list", "petclinic_PetType.list", "petclinic_Visit.detail", "petclinic_Veterinarian.detail", "petclinic_Pet.detail", "petclinic_Owner.detail"})
     void screens();
 }
