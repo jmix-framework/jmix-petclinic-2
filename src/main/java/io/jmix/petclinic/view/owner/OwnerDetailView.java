@@ -1,4 +1,4 @@
-package io.jmix.petclinic.view.owner.owner;
+package io.jmix.petclinic.view.owner;
 
 import com.vaadin.flow.component.html.H3;
 import io.jmix.petclinic.entity.owner.Owner;
