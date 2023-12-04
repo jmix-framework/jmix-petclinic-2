@@ -65,3 +65,9 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+bootBuildImage {
+    if (rootProject.hasProperty('jmixDockerTag')) {
+        imageName = rootProject['jmixDockerTag']
+    }
+}
