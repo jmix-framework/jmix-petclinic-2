@@ -65,3 +65,11 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+bootBuildImage {
+    if (rootProject.hasProperty('jmixDockerTag')) {
+        imageName = rootProject['jmixDockerTag']
+    } else {
+        imageName = 'docker.haulmont.com/platform/infrastructure/demo-cuba-apps-docker/jmix-demo-petclinic-2:testing'
+    }
+}
