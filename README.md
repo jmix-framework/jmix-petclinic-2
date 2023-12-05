@@ -4,7 +4,7 @@ Jmix Petclinic is an example application built with Jmix framework. It is based 
 
 ## Online Demo
 
-The Jmix Petclinic application is available online at https://demo.jmix.io/petclinic-2
+The Jmix Petclinic application is available online at https://demo.jmix.io/petclinic
 
 ## Application Overview
 

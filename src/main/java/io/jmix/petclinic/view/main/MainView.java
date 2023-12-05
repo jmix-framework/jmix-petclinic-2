@@ -25,6 +25,7 @@ public class MainView extends StandardMainView {
 
     @Subscribe
     public void onInit(final InitEvent event) {
+        // TODO - replace when https://github.com/jmix-framework/jmix/issues/2213 is implemented
         Image image = uiComponents.create(Image.class);
         image.setSrc("images/petclinic_logo_with_slogan.svg");
         image.setClassName("login-image");

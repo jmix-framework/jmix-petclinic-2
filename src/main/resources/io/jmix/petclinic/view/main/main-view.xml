@@ -17,7 +17,8 @@
         <drawerLayout>
             <section id="section" classNames="jmix-main-view-section">
                 <hbox width="100%" spacing="true">
-                    <image id="applicationIcon" width="2em" resource="/images/petclinic_logo.svg"/>
+                    <image id="applicationIcon" width="2em" resource="/petclinic/images/petclinic_logo.svg"
+                           classNames="ml-s"/>
                     <h2 id="applicationTitle"
                         text="msg://applicationTitle.text"
                         classNames="jmix-main-view-application-title"/>
