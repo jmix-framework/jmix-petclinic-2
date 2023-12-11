@@ -2,9 +2,10 @@ package io.jmix.petclinic.online;
 
 import com.vaadin.flow.component.notification.Notification;
 import io.jmix.core.session.SessionData;
-import io.jmix.flowui.Dialogs;
 import io.jmix.flowui.Notifications;
 import io.jmix.flowui.backgroundtask.BackgroundTask;
+import io.jmix.flowui.backgroundtask.BackgroundTaskHandler;
+import io.jmix.flowui.backgroundtask.BackgroundWorker;
 import io.jmix.flowui.backgroundtask.TaskLifeCycle;
 import io.jmix.petclinic.visit.VisitTestDataCreation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,19 +25,21 @@ public class OnlineDemoDataCreator {
     @Autowired
     private VisitTestDataCreation visitTestDataCreation;
     @Autowired
-    private Dialogs dialogs;
-    @Autowired
     private Notifications notifications;
     @Autowired
     private SessionData sessionData;
+    @Autowired
+    private BackgroundWorker backgroundWorker;
 
     public void createDemoData() {
         Object demoDataCreated = sessionData.getAttribute("demo-data-created");
         if (!Boolean.TRUE.equals(demoDataCreated)) {
-            dialogs.createBackgroundTaskDialog(new GenerateDemoVisitsTask())
-                    .withHeader("Please wait")
-                    .withText("Generating visits demo data...")
-                    .open();
+            notifications.create("Generating visits demo data...")
+                    .withPosition(Notification.Position.BOTTOM_END)
+                    .show();
+
+            BackgroundTaskHandler<Void> handler = backgroundWorker.handle(new GenerateDemoVisitsTask());
+            handler.execute();
 
             sessionData.setAttribute("demo-data-created", true);
         }
