@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class OwnerDetailView extends StandardDetailView<Owner> {
     @ViewComponent
     private H3 nameHeader;
-    @Autowired
+    @ViewComponent
     private MessageBundle messageBundle;
 
     @Subscribe

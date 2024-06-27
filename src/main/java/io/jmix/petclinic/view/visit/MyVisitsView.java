@@ -23,7 +23,7 @@ public class MyVisitsView extends StandardListView<Visit> {
     private DataGrid<Visit> visitsDataGrid;
     @Autowired
     private Notifications notifications;
-    @Autowired
+    @ViewComponent
     private MessageBundle messageBundle;
     @ViewComponent
     private DataContext dataContext;
