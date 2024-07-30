@@ -6,7 +6,6 @@ html {
     --lumo-primary-color-50pct: rgba(134, 122, 235, 0.5);
     --lumo-primary-color-10pct: rgba(134, 122, 235, 0.1);
     --lumo-primary-text-color: var(--lumo-primary-color);
-
 }
 
 .event-red {
@@ -60,7 +59,25 @@ a.event-blue .fc-event-main {
     background-position: center;
 }
 
-
 .login-image {
     padding-top: 300px;
+}
+
+.jmix-main-view-section {
+    background-color: var(--lumo-primary-color);
+    color: var(--lumo-primary-contrast-color);
+
+    --lumo-header-text-color: var(--lumo-primary-contrast-color);
+    --lumo-primary-text-color: var(--lumo-warning-color);
+    --lumo-secondary-text-color: var(--lumo-primary-contrast-color);
+    --vaadin-focus-ring-color: var(--lumo-primary-contrast-color);
+}
+
+.jmix-main-view-section [theme~='badge'][theme~='warning'] {
+    background-color: var(--lumo-primary-text-color);
+    color: var(--lumo-primary-color);
+}
+
+.jmix-main-view-section a:-webkit-any-link:focus-visible {
+    outline-color: var(--lumo-primary-color-50pct);
 }

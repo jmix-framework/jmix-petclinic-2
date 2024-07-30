@@ -1,0 +1,11 @@
+
+@media (hover: hover) {
+    :host(:hover:not([disabled]):host-context(.jmix-main-view-section)),
+    :host(:hover:not([disabled]):host-context(.jmix-main-view-section)) [part='toggle'] {
+        color: var(--lumo-warning-color);
+    }
+}
+
+:host-context(.jmix-main-view-section) [part='toggle'] {
+    color: unset;
+}
