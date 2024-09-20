@@ -17,6 +17,7 @@ import io.jmix.flowui.facet.UrlQueryParametersFacet;
 import io.jmix.flowui.facet.urlqueryparameters.AbstractUrlQueryParametersBinder;
 import io.jmix.flowui.kit.action.ActionPerformedEvent;
 import io.jmix.flowui.model.CollectionLoader;
+import io.jmix.flowui.model.DataContext;
 import io.jmix.flowui.view.*;
 import io.jmix.fullcalendarflowui.component.FullCalendar;
 import io.jmix.fullcalendarflowui.component.data.EntityCalendarEvent;
@@ -27,6 +28,8 @@ import io.jmix.petclinic.entity.visit.Visit;
 import io.jmix.petclinic.entity.visit.VisitType;
 import io.jmix.petclinic.view.main.MainView;
 import io.jmix.petclinic.view.visit.calendar.MonthFormatter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
@@ -44,12 +47,15 @@ import java.util.Set;
 @DialogMode(width = "64em")
 public class VisitListView extends StandardListView<Visit> {
 
+    private static final Logger log = LoggerFactory.getLogger(VisitListView.class);
     private static final String CALENDAR_DISPLAY_MODE_PARAM = "calendarDisplayMode";
     private static final String DATE_PARAM = "date";
     @Autowired
     private CurrentAuthentication currentAuthentication;
     @Autowired
     private DialogWindows dialogWindows;
+    @Autowired
+    private DatatypeFormatter datatypeFormatter;
     @ViewComponent
     private JmixCheckboxGroup<VisitType> visitTypeField;
     @ViewComponent
@@ -64,10 +70,10 @@ public class VisitListView extends StandardListView<Visit> {
     private Tab contentTabSheetAllVisitsTab;
     @ViewComponent
     private CollectionLoader<Visit> visitsDl;
-    @Autowired
-    private DatatypeFormatter datatypeFormatter;
     @ViewComponent
     private UrlQueryParametersFacet urlQueryParameters;
+    @ViewComponent
+    private DataContext dataContext;
 
     private class CalendarUrlQueryParametersBinder extends AbstractUrlQueryParametersBinder {
 
@@ -97,8 +103,8 @@ public class VisitListView extends StandardListView<Visit> {
                         .ifPresent(calendar::setCalendarDisplayMode);
             }
             List<String> date = queryParameters.getParameters().get(DATE_PARAM);
-            if (calendarDisplayMode != null) {
-                calendar.navigateToDate(LocalDate.parse(date.get(0)));
+            if (date != null) {
+                calendar.navigateToDate(LocalDate.parse(date.getFirst()));
             }
         }
 
@@ -111,23 +117,8 @@ public class VisitListView extends StandardListView<Visit> {
     @Subscribe
     public void onInit(final InitEvent event) {
         initTypeFilter();
-
-        initCalendar();
         urlQueryParameters.registerBinder(new CalendarUrlQueryParametersBinder());
     }
-
-    private void initCalendar() {
-
-//        fullCalendar.setNumberClickable(true);
-//        fullCalendar.addDayNumberClickedListener(this::openDayView);
-//        fullCalendar.addWeekNumberClickedListener(this::openWeekView);
-//
-//        fullCalendar.addTimeslotClickedListener(this::createVisit);
-//        fullCalendar.addEntryClickedListener(this::editVisit);
-//        fullCalendar.addEntryDroppedListener(this::updateVisit);
-//        fullCalendar.addEntryResizedListener(this::updateVisit);
-    }
-
 
     @Subscribe
     public void onReady(final ReadyEvent event) {
@@ -145,7 +136,7 @@ public class VisitListView extends StandardListView<Visit> {
 
     @Subscribe("calendar")
     public void onCalendarEventClick(final EventClickEvent event) {
-        EntityCalendarEvent<Visit> entityCalendarEvent = (EntityCalendarEvent) event.getCalendarEvent();
+        EntityCalendarEvent<Visit> entityCalendarEvent = event.getCalendarEvent();
         dialogWindows.detail(this, Visit.class)
                 .editEntity(entityCalendarEvent.getEntity())
                 .open();
@@ -210,27 +201,20 @@ public class VisitListView extends StandardListView<Visit> {
 
     @Subscribe("calendar")
     public void onCalendarEventResize(final EventResizeEvent event) {
-        LocalDateTime startDateTime = event.getCalendarEvent().getStartDateTime();
-        LocalDateTime endDateTime = event.getCalendarEvent().getEndDateTime();
+        updateVisit(event.getCalendarEvent());
     }
 
     @Subscribe("calendar")
     public void onCalendarEventDrop(final EventDropEvent event) {
-        LocalDateTime startDateTime = event.getCalendarEvent().getStartDateTime();
-        LocalDateTime endDateTime = event.getCalendarEvent().getEndDateTime();
+        updateVisit(event.getCalendarEvent());
     }
 
-//    private void updateVisit(EntryTimeChangedEvent e) {
-//        Entry entry = e.getEntry();
-//        visitsCalendarDc.getMutableItems().stream()
-//                .filter(it -> it.getId().equals(UUID.fromString(entry.getId())))
-//                .findFirst()
-//                .ifPresent(it ->  {
-//                    it.setVisitStart(parseDate(e, "start"));
-//                    it.setVisitEnd(parseDate(e, "end"));
-//                    dataContext.save();
-//                });
-//    }
+    private void updateVisit(EntityCalendarEvent<Visit> event) {
+        LocalDateTime visitStart = event.getEntity().getVisitStart();
+        LocalDateTime visitEnd = event.getEntity().getVisitEnd();
+        log.info("Visit time changed to: {} - {}", visitStart, visitEnd);
+        dataContext.save();
+    }
 
     @Subscribe("calendar")
     public void onCalendarDatesSet(final DatesSetEvent event) {
@@ -241,9 +225,7 @@ public class VisitListView extends StandardListView<Visit> {
         CalendarViewMode.fromCalendarDisplayMode(displayModeInfo.getDisplayMode())
                 .ifPresent(this::setCalendarViewMode);
 
-
-        String title = calculateTitle(event);
-        calendarTitle.setText(title);
+        calendarTitle.setText(calculateTitle(event));
     }
 
     private String calculateTitle(DatesSetEvent e) {

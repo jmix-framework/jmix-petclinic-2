@@ -70,6 +70,7 @@
                             <calendar:calendar
                                     weekNumbersVisible="true"
                                     eventResizableFromStart="true"
+                                    eventDurationEditable="true"
                                     eventStartEditable="true"
                                     selectionEnabled="true"
                                     selectMirror="true"
