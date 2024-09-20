@@ -91,6 +91,30 @@ public class Visit {
     @Column(name = "DELETED_DATE")
     private OffsetDateTime deletedDate;
 
+    @DependsOnProperties({"type"})
+    @JmixProperty
+    public String getTypeTextColor() {
+        return Optional.ofNullable(getType())
+                .map(VisitType::getTextColor)
+                .orElse("");
+    }
+
+    @DependsOnProperties({"type"})
+    @JmixProperty
+    public String getTypeBorderColor() {
+        return Optional.ofNullable(getType())
+                .map(VisitType::getBorderColor)
+                .orElse("");
+    }
+
+    @DependsOnProperties({"type"})
+    @JmixProperty
+    public String getTypeBackgroundColor() {
+        return Optional.ofNullable(getType())
+                .map(VisitType::getBackgroundColor)
+                .orElse("");
+    }
+
 
     @JmixProperty
     @DependsOnProperties({"type"})
