@@ -2,24 +2,40 @@ package io.jmix.petclinic.view.visit;
 
 import io.jmix.core.metamodel.datatype.EnumClass;
 
+import io.jmix.fullcalendarflowui.kit.component.model.CalendarDisplayMode;
 import org.springframework.lang.Nullable;
-import org.vaadin.stefan.fullcalendar.CalendarView;
-import org.vaadin.stefan.fullcalendar.CalendarViewImpl;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import static io.jmix.fullcalendarflowui.kit.component.model.CalendarDisplayModes.*;
 
 public enum CalendarViewMode implements EnumClass<String> {
 
-    MONTH("dayGridMonth", CalendarViewImpl.DAY_GRID_MONTH),
+    MONTH("dayGridMonth", DAY_GRID_MONTH, List.of(LIST_MONTH)),
 
-    DAY("timeGridDay", CalendarViewImpl.TIME_GRID_DAY),
-    WEEK("timeGridWeek", CalendarViewImpl.TIME_GRID_WEEK);
+    DAY("timeGridDay", TIME_GRID_DAY, List.of(DAY_GRID_DAY)),
+    WEEK("timeGridWeek", TIME_GRID_WEEK, List.of(LIST_WEEK, DAY_GRID_WEEK) );
 
     private final String id;
-    private final CalendarView calendarView;
+    private final CalendarDisplayMode calendarDisplayMode;
+    private final List<CalendarDisplayMode> alternativeCalendarDisplayModes;
 
-    CalendarViewMode(String id, CalendarView calendarView) {
+    CalendarViewMode(String id, CalendarDisplayMode calendarDisplayMode, List<CalendarDisplayMode> alternativeCalendarDisplayModes) {
         this.id = id;
-        this.calendarView = calendarView;
+        this.calendarDisplayMode = calendarDisplayMode;
+        this.alternativeCalendarDisplayModes = alternativeCalendarDisplayModes;
+    }
+
+    public static Optional<CalendarViewMode> fromCalendarDisplayMode(CalendarDisplayMode calendarDisplayMode) {
+        return Arrays.stream(values())
+                .filter(it -> it.calendarDisplayMode.equals(calendarDisplayMode) || it.alternativeCalendarDisplayModes().contains(calendarDisplayMode))
+                .findAny();
+    }
+
+    private List<CalendarDisplayMode> alternativeCalendarDisplayModes() {
+        return alternativeCalendarDisplayModes;
     }
 
     public String getId() {
@@ -36,7 +52,7 @@ public enum CalendarViewMode implements EnumClass<String> {
         return null;
     }
 
-    public CalendarView getCalendarView() {
-        return calendarView;
+    public CalendarDisplayMode getCalendarDisplayMode() {
+        return calendarDisplayMode;
     }
 }
