@@ -1,0 +1,57 @@
+:sample-project: jmix-$PROJECT_NAME-sample
+
+= Guide Title
+
+One Paragraph introduction & expectation out of this guide.
+
+[[requirements]]
+== Requirements
+
+If you want to implement this guide step by step, you will need the following:
+
+1. xref:ROOT:setup.adoc[Setup Jmix Studio]
+2. Download the sample project. You can **download the completed sample project**, which includes all the examples used in this guide. This allows you to explore the finished implementation and experiment with the functionality right away.
+* https://github.com/jmix-framework/{sample-project}/archive/refs/heads/main.zip[Download^] and unzip the source repository
+* or clone it using git:
+`git clone https://github.com/jmix-framework/{sample-project}.git`
+
+Alternatively, you can **start with the base Petclinic project** and follow the step-by-step instructions in this guide to implement the features yourself: https://github.com/jmix-framework/jmix-petclinic-2[Jmix Petclinic] and follow along to add the functionality step-by-step.
+
+[[what-we-are-going-to-build]]
+== What We are Going to Build
+
+In this guide, we will enhance the https://github.com/jmix-framework/jmix-petclinic-2[Jmix Petclinic^] example with something.
+
+Description of the final version of the guide...
+
+The application includes the following event-driven features:
+
+- **Change 1**: Description of Change 1.
+- **Change 2**: Description of Change 2.
+
+
+[[final-application]]
+=== Final Application
+
+video::zTYx_KSeMzY[youtube,width=1280,height=600]
+
+[[section-1]]
+==== Section 1
+
+Some description... ... with some source code reference:
+
+.VisitDetailView.java
+[source,java]
+----
+include::example$/src/main/java/io/jmix/petclinic/view/visit/VisitDetailView.java[tags=generate-room-keycode]
+----
+
+[[summary]]
+== Summary
+
+Two - three paragraphs of summary text
+
+[[further-information]]
+=== Further Information
+
+* xref:data-access:entity-events.adoc[]
