@@ -7,7 +7,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'com.vaadin'
 
 jmix {
-    bomVersion = '2.4.999-SNAPSHOT'
+    bomVersion = '2.4.0-RC1'
     projectId = 'petclinic'
 }
 
@@ -29,6 +29,11 @@ vaadin {
     optimizeBundle = false
 }
 
+configurations.implementation {
+    exclude group: 'com.vaadin', module: 'hilla'
+    exclude group: 'com.vaadin', module: 'hilla-dev'
+}
+
 dependencies {
     implementation 'io.jmix.core:jmix-core-starter'
     implementation 'io.jmix.pessimisticlock:jmix-pessimisticlock-starter'
@@ -44,6 +49,10 @@ dependencies {
     implementation 'io.jmix.datatools:jmix-datatools-starter'
     implementation 'io.jmix.datatools:jmix-datatools-flowui-starter'
     implementation 'io.jmix.fullcalendar:jmix-fullcalendar-flowui-starter'
+    implementation 'io.jmix.kanban:jmix-kanban-flowui-starter'
+    implementation 'io.jmix.uiconstraints:jmix-uiconstraints-starter'
+    implementation 'io.jmix.pivottable:jmix-pivottable-flowui-starter'
+    implementation 'io.jmix.restds:jmix-restds-starter'
 
     implementation 'io.jmix.flowui:jmix-flowui-kit'
 
