@@ -37,6 +37,7 @@
         <urlQueryParameters id="urlQueryParameters">
             <genericFilter component="genericFilter"/>
             <pagination component="pagination"/>
+            <calendar:calendarParameters component="calendar" calendarDateParam="date"/>
         </urlQueryParameters>
         <settings auto="true"/>
     </facets>
@@ -48,7 +49,7 @@
     <layout>
         <tabSheet id="contentTabSheet" width="100%" height="100%">
             <tab id="calendarTab" label="msg://calendar">
-                <vbox width="100%" height="100%">
+                <vbox width="100%" height="100%" padding="false">
                     <split width="100%" themeNames="splitter-spacing" splitterPosition="16" height="100%">
                         <vbox id="filterBox">
                             <details summaryText="msg://visitType" width="100%" opened="true">
@@ -69,16 +70,15 @@
 
                             <calendar:calendar
                                     weekNumbersVisible="true"
+                                    navigationLinksEnabled="true"
                                     eventResizableFromStart="true"
                                     eventDurationEditable="true"
                                     eventStartEditable="true"
-                                    selectionEnabled="true"
                                     selectMirror="true"
                                     dayMaxEvents="5"
                                     id="calendar"
                                     width="100%"
-                                    height="100%"
-                            >
+                                    height="100%">
                                 <calendar:dataProviders>
                                     <calendar:containerDataProvider dataContainer="visitsCalendarDc"
                                                                     title="description"
@@ -95,7 +95,7 @@
                 </vbox>
             </tab>
             <tab id="allVisitsTab" label="msg://allVisits">
-                <vbox width="100%">
+                <vbox width="100%" padding="false">
                     <genericFilter id="genericFilter"
                                    dataLoader="visitsDl">
                         <properties include=".*"/>

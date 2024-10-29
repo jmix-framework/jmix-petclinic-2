@@ -1,11 +1,8 @@
 package io.jmix.petclinic.view.visit;
 
-import com.google.common.collect.ImmutableMap;
 import com.vaadin.flow.component.AbstractField;
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.tabs.Tab;
-import com.vaadin.flow.router.QueryParameters;
 import com.vaadin.flow.router.Route;
 import io.jmix.core.metamodel.datatype.DatatypeFormatter;
 import io.jmix.core.security.CurrentAuthentication;
@@ -13,8 +10,6 @@ import io.jmix.flowui.DialogWindows;
 import io.jmix.flowui.component.checkboxgroup.JmixCheckboxGroup;
 import io.jmix.flowui.component.select.JmixSelect;
 import io.jmix.flowui.component.tabsheet.JmixTabSheet;
-import io.jmix.flowui.facet.UrlQueryParametersFacet;
-import io.jmix.flowui.facet.urlqueryparameters.AbstractUrlQueryParametersBinder;
 import io.jmix.flowui.kit.action.ActionPerformedEvent;
 import io.jmix.flowui.model.CollectionLoader;
 import io.jmix.flowui.model.DataContext;
@@ -22,8 +17,6 @@ import io.jmix.flowui.view.*;
 import io.jmix.fullcalendarflowui.component.FullCalendar;
 import io.jmix.fullcalendarflowui.component.data.EntityCalendarEvent;
 import io.jmix.fullcalendarflowui.component.event.*;
-import io.jmix.fullcalendarflowui.kit.component.model.CalendarDisplayMode;
-import io.jmix.fullcalendarflowui.kit.component.model.CalendarDisplayModes;
 import io.jmix.petclinic.entity.visit.Visit;
 import io.jmix.petclinic.entity.visit.VisitType;
 import io.jmix.petclinic.view.main.MainView;
@@ -36,7 +29,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.util.EnumSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -48,8 +40,7 @@ import java.util.Set;
 public class VisitListView extends StandardListView<Visit> {
 
     private static final Logger log = LoggerFactory.getLogger(VisitListView.class);
-    private static final String CALENDAR_DISPLAY_MODE_PARAM = "calendarDisplayMode";
-    private static final String DATE_PARAM = "date";
+
     @Autowired
     private CurrentAuthentication currentAuthentication;
     @Autowired
@@ -71,53 +62,11 @@ public class VisitListView extends StandardListView<Visit> {
     @ViewComponent
     private CollectionLoader<Visit> visitsDl;
     @ViewComponent
-    private UrlQueryParametersFacet urlQueryParameters;
-    @ViewComponent
     private DataContext dataContext;
-
-    private class CalendarUrlQueryParametersBinder extends AbstractUrlQueryParametersBinder {
-
-        public CalendarUrlQueryParametersBinder() {
-            calendar.addDatesSetListener(datesSetEvent -> {
-
-                CalendarDisplayMode displayModeParam = CalendarViewMode.fromCalendarDisplayMode(datesSetEvent.getDisplayModeInfo().getDisplayMode())
-                        .map(CalendarViewMode::getCalendarDisplayMode)
-                        .orElse(datesSetEvent.getDisplayModeInfo().getDisplayMode());
-
-                QueryParameters qp = new QueryParameters(
-                        ImmutableMap.of(
-                                CALENDAR_DISPLAY_MODE_PARAM, List.of(displayModeParam.getId()),
-                                DATE_PARAM, List.of(datesSetEvent.getStartDate().toString())
-                        )
-                );
-                fireQueryParametersChanged(new UrlQueryParametersFacet.UrlQueryParametersChangeEvent(this, qp));
-            });
-        }
-
-        @Override
-        public void updateState(QueryParameters queryParameters) {
-            List<String> calendarDisplayMode = queryParameters.getParameters().get(CALENDAR_DISPLAY_MODE_PARAM);
-            if (calendarDisplayMode != null) {
-                CalendarViewMode.fromCalendarDisplayMode(CalendarDisplayModes.fromId(calendarDisplayMode.get(0)))
-                        .map(CalendarViewMode::getCalendarDisplayMode)
-                        .ifPresent(calendar::setCalendarDisplayMode);
-            }
-            List<String> date = queryParameters.getParameters().get(DATE_PARAM);
-            if (date != null) {
-                calendar.navigateToDate(LocalDate.parse(date.getFirst()));
-            }
-        }
-
-        @Override
-        public Component getComponent() {
-            return calendar;
-        }
-    }
 
     @Subscribe
     public void onInit(final InitEvent event) {
         initTypeFilter();
-        urlQueryParameters.registerBinder(new CalendarUrlQueryParametersBinder());
     }
 
     @Subscribe
@@ -165,17 +114,26 @@ public class VisitListView extends StandardListView<Visit> {
     }
 
     @Subscribe("calendar")
-    public void onCalendarDateClick(final DateClickEvent event) {
-
+    public void onCalendarDayNavigationLinkClick(final DayNavigationLinkClickEvent event) {
         CalendarViewMode.fromCalendarDisplayMode(calendar.getCurrentCalendarDisplayMode())
                 .ifPresent(it -> {
                     if (it.equals(CalendarViewMode.MONTH)) {
-                        calendar.navigateToDate(event.getDateTime().toLocalDate());
+                        calendar.navigateToDate(event.getDate());
                         calendar.setCalendarDisplayMode(CalendarViewMode.DAY.getCalendarDisplayMode());
                     }
                 });
     }
 
+    @Subscribe("calendar")
+    public void onCalendarWeekNavigationLinkClick(final WeekNavigationLinkClickEvent event) {
+        CalendarViewMode.fromCalendarDisplayMode(calendar.getCurrentCalendarDisplayMode())
+                .ifPresent(it -> {
+                    if (it.equals(CalendarViewMode.MONTH)) {
+                        calendar.navigateToDate(event.getDate());
+                        calendar.setCalendarDisplayMode(CalendarViewMode.WEEK.getCalendarDisplayMode());
+                    }
+                });
+    }
 
     @Subscribe("calendar")
     public void onCalendarSelect(final SelectEvent event) {
@@ -196,7 +154,6 @@ public class VisitListView extends StandardListView<Visit> {
                                 .open();
                     }
                 });
-
     }
 
     @Subscribe("calendar")
@@ -223,7 +180,12 @@ public class VisitListView extends StandardListView<Visit> {
         loadEvents(displayModeInfo.getActiveStartDate().atStartOfDay(), displayModeInfo.getActiveEndDate().atStartOfDay());
 
         CalendarViewMode.fromCalendarDisplayMode(displayModeInfo.getDisplayMode())
-                .ifPresent(this::setCalendarViewMode);
+                .ifPresent(mode -> {
+                    setCalendarViewMode(mode);
+                    event.getSource().setSelectionEnabled(
+                            mode == CalendarViewMode.DAY
+                                    || mode == CalendarViewMode.WEEK);
+                });
 
         calendarTitle.setText(calculateTitle(event));
     }
