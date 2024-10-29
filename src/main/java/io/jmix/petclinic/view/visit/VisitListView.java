@@ -117,7 +117,7 @@ public class VisitListView extends StandardListView<Visit> {
     public void onCalendarDayNavigationLinkClick(final DayNavigationLinkClickEvent event) {
         CalendarViewMode.fromCalendarDisplayMode(calendar.getCurrentCalendarDisplayMode())
                 .ifPresent(it -> {
-                    if (it.equals(CalendarViewMode.MONTH)) {
+                    if (it.equals(CalendarViewMode.MONTH) || it.equals(CalendarViewMode.WEEK)) {
                         calendar.navigateToDate(event.getDate());
                         calendar.setCalendarDisplayMode(CalendarViewMode.DAY.getCalendarDisplayMode());
                     }
@@ -128,7 +128,7 @@ public class VisitListView extends StandardListView<Visit> {
     public void onCalendarWeekNavigationLinkClick(final WeekNavigationLinkClickEvent event) {
         CalendarViewMode.fromCalendarDisplayMode(calendar.getCurrentCalendarDisplayMode())
                 .ifPresent(it -> {
-                    if (it.equals(CalendarViewMode.MONTH)) {
+                    if (it.equals(CalendarViewMode.MONTH) || it.equals(CalendarViewMode.DAY)) {
                         calendar.navigateToDate(event.getDate());
                         calendar.setCalendarDisplayMode(CalendarViewMode.WEEK.getCalendarDisplayMode());
                     }
@@ -180,11 +180,11 @@ public class VisitListView extends StandardListView<Visit> {
         loadEvents(displayModeInfo.getActiveStartDate().atStartOfDay(), displayModeInfo.getActiveEndDate().atStartOfDay());
 
         CalendarViewMode.fromCalendarDisplayMode(displayModeInfo.getDisplayMode())
-                .ifPresent(mode -> {
-                    setCalendarViewMode(mode);
+                .ifPresent(it -> {
+                    setCalendarViewMode(it);
                     event.getSource().setSelectionEnabled(
-                            mode == CalendarViewMode.DAY
-                                    || mode == CalendarViewMode.WEEK);
+                            it == CalendarViewMode.DAY
+                                    || it == CalendarViewMode.WEEK);
                 });
 
         calendarTitle.setText(calculateTitle(event));
