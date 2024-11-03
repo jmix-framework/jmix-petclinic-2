@@ -1,6 +1,7 @@
 plugins {
     id 'io.jmix' version '2.4.0'
     id 'java'
+    id 'org.jetbrains.gradle.plugin.idea-ext' version '1.1.9'
 }
 
 apply plugin: 'org.springframework.boot'
@@ -10,6 +11,7 @@ jmix {
     bomVersion = '2.4.0'
     projectId = 'petclinic'
 }
+
 
 group = 'io.jmix'
 version = '0.0.1-SNAPSHOT'
@@ -56,8 +58,23 @@ dependencies {
     implementation 'org.apache.commons:commons-dbcp2'
 }
 
+configurations.implementation {
+    exclude group: 'com.vaadin', module: 'hilla'
+    exclude group: 'com.vaadin', module: 'hilla-dev'
+}
+
 test {
     useJUnitPlatform()
+}
+
+idea {
+    module {
+        excludeDirs.addAll(files '.jmix', 'node_modules', 'src/main/frontend/generated/', 'src/main/bundles')
+    }
+}
+
+vaadin {
+    optimizeBundle = false
 }
 
 bootBuildImage {

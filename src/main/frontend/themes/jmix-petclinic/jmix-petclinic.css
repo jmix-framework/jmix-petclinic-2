@@ -53,7 +53,7 @@ a.event-blue .fc-event-main {
 
 
 .jmix-login-main-layout {
-    background-image: url("./login-background.svg");
+    background-image: url("login-background.svg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;

@@ -7,7 +7,7 @@ import io.jmix.petclinic.view.main.MainView;
 import com.vaadin.flow.router.Route;
 import io.jmix.flowui.view.*;
 
-@Route(value = "petTypes", layout = MainView.class)
+@Route(value = "pet-types", layout = MainView.class)
 @ViewController("petclinic_PetType.list")
 @ViewDescriptor("pet-type-list-view.xml")
 @LookupComponent("petTypesDataGrid")

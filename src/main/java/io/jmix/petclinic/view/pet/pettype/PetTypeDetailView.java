@@ -9,7 +9,7 @@ import io.jmix.flowui.view.*;
 
 import static io.jmix.petclinic.view.pet.pettype.ColorGeneration.randomColor;
 
-@Route(value = "petTypes/:id", layout = MainView.class)
+@Route(value = "pet-types/:id", layout = MainView.class)
 @ViewController("petclinic_PetType.detail")
 @ViewDescriptor("pet-type-detail-view.xml")
 @EditedEntityContainer("petTypeDc")
