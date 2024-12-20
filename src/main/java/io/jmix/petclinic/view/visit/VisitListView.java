@@ -8,6 +8,7 @@ import io.jmix.core.metamodel.datatype.DatatypeFormatter;
 import io.jmix.core.security.CurrentAuthentication;
 import io.jmix.flowui.DialogWindows;
 import io.jmix.flowui.component.checkboxgroup.JmixCheckboxGroup;
+import io.jmix.flowui.component.genericfilter.GenericFilter;
 import io.jmix.flowui.component.select.JmixSelect;
 import io.jmix.flowui.component.tabsheet.JmixTabSheet;
 import io.jmix.flowui.kit.action.ActionPerformedEvent;
@@ -63,6 +64,8 @@ public class VisitListView extends StandardListView<Visit> {
     private CollectionLoader<Visit> visitsDl;
     @ViewComponent
     private DataContext dataContext;
+    @ViewComponent
+    private GenericFilter genericFilter;
 
     @Subscribe
     public void onInit(final InitEvent event) {
@@ -231,6 +234,7 @@ public class VisitListView extends StandardListView<Visit> {
                 !Objects.equals(event.getPreviousTab(), contentTabSheetAllVisitsTab)
         ) {
             visitsDl.load();
+            genericFilter.loadConfigurationsAndApplyDefault();
         }
     }
 }
