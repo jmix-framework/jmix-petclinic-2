@@ -23,8 +23,12 @@
                     <image id="applicationIcon" width="2em" resource="/petclinic/images/petclinic_logo.svg"
                            classNames="ml-s"/>
                     <h2 id="applicationTitle"
-                        text="msg://applicationTitle.text"
-                        classNames="jmix-main-view-application-title"/>
+                        classNames="jmix-main-view-application-title">
+                        <anchor id="baseLink"
+                                href="."
+                                text="msg://applicationTitle.text"
+                                classNames="jmix-main-view-application-title-base-link"/>
+                    </h2>
                 </hbox>
                 <nav id="navigation"
                      classNames="jmix-main-view-navigation"
@@ -39,5 +43,10 @@
                 </footer>
             </section>
         </drawerLayout>
+        <initialLayout>
+            <vbox alignItems="CENTER" height="100%" width="100%">
+                <image resource="images/petclinic_logo_with_slogan.svg" classNames="login-image" maxWidth="50%"/>
+            </vbox>
+        </initialLayout>
     </appLayout>
 </mainView>
