@@ -31,17 +31,21 @@
             <properties include=".*"/>
         </genericFilter>
         <hbox id="buttonsPanel" classNames="buttons-panel">
-            <button id="createBtn" action="usersDataGrid.create"/>
-            <button id="editBtn" action="usersDataGrid.edit"/>
-            <button id="removeBtn" action="usersDataGrid.remove"/>
-            <button id="showRoleAssignmentsBtn" action="usersDataGrid.showRoleAssignments"/>
-            <dropdownButton id="additionalBtn" text="msg://additionalMenu" icon="COG">
-                <items>
-                    <actionItem id="changePasswordItem" ref="usersDataGrid.changePassword"/>
-                    <actionItem id="resetPasswordItem" ref="usersDataGrid.resetPassword"/>
-                </items>
-            </dropdownButton>
-            <simplePagination id="pagination" dataLoader="usersDl"/>
+            <startSlot>
+                <button id="createBtn" action="usersDataGrid.create"/>
+                <button id="editBtn" action="usersDataGrid.edit"/>
+                <button id="removeBtn" action="usersDataGrid.remove"/>
+                <button id="showRoleAssignmentsBtn" action="usersDataGrid.showRoleAssignments"/>
+                <dropdownButton id="additionalBtn" text="msg://additionalMenu" icon="COG">
+                    <items>
+                        <actionItem id="changePasswordItem" ref="usersDataGrid.changePassword"/>
+                        <actionItem id="resetPasswordItem" ref="usersDataGrid.resetPassword"/>
+                    </items>
+                </dropdownButton>
+            </startSlot>
+            <endSlot>
+                <simplePagination id="pagination" dataLoader="usersDl"/>
+            </endSlot>
         </hbox>
         <dataGrid id="usersDataGrid"
                   width="100%"

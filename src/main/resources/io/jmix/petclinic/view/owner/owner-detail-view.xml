@@ -36,7 +36,7 @@
                 </formLayout>
             </tab>
             <tab id="petsTab" label="msg://io.jmix.petclinic.entity.owner/Owner.pets">
-                <vbox width="100%">
+                <vbox width="100%" padding="false">
                     <hbox id="buttonsPanel" classNames="buttons-panel">
                         <button action="petsDataGrid.create"/>
                         <button action="petsDataGrid.edit"/>

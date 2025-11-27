@@ -29,9 +29,13 @@
     </actions>
     <layout>
         <hbox id="buttonsPanel" classNames="buttons-panel">
-            <button id="startTreatmentBtn" action="visitsDataGrid.startTreatment" />
-            <button id="finishTreatmentBtn" action="visitsDataGrid.finishTreatment"/>
-            <simplePagination id="pagination" dataLoader="visitsDl"/>
+            <startSlot>
+                <button id="startTreatmentBtn" action="visitsDataGrid.startTreatment"/>
+                <button id="finishTreatmentBtn" action="visitsDataGrid.finishTreatment"/>
+            </startSlot>
+            <endSlot>
+                <simplePagination id="pagination" dataLoader="visitsDl"/>
+            </endSlot>
         </hbox>
         <dataGrid id="visitsDataGrid"
                   width="100%"

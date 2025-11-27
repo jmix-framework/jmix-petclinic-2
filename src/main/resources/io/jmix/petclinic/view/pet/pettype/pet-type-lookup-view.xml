@@ -31,12 +31,16 @@
     </actions>
     <layout>
         <hbox id="buttonsPanel" classNames="buttons-panel">
-            <textField id="nameFilterField" 
-                       clearButtonVisible="true" 
-                       autofocus="true"
-                       width="70%"
-                       placeholder="msg://searchByName"/>
-            <simplePagination id="pagination" dataLoader="petTypesDl"/>
+            <startSlot>
+                <textField id="nameFilterField"
+                           clearButtonVisible="true"
+                           autofocus="true"
+                           width="70%"
+                           placeholder="msg://searchByName"/>
+            </startSlot>
+            <endSlot>
+                <simplePagination id="pagination" dataLoader="petTypesDl"/>
+            </endSlot>
         </hbox>
         <dataGrid id="petTypesDataGrid"
                   width="100%"

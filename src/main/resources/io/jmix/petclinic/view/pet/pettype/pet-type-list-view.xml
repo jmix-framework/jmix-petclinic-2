@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <view xmlns="http://jmix.io/schema/flowui/view"
-      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
       title="msg://petTypeListView.title"
       focusComponent="petTypesDataGrid">
     <data readOnly="true">
@@ -26,10 +25,14 @@
     </actions>
     <layout>
         <hbox id="buttonsPanel" classNames="buttons-panel">
-            <button id="createBtn" action="petTypesDataGrid.create"/>
-            <button id="editBtn" action="petTypesDataGrid.edit"/>
-            <button id="removeBtn" action="petTypesDataGrid.remove"/>
-            <simplePagination id="pagination" dataLoader="petTypesDl"/>
+            <startSlot>
+                <button id="createBtn" action="petTypesDataGrid.create"/>
+                <button id="editBtn" action="petTypesDataGrid.edit"/>
+                <button id="removeBtn" action="petTypesDataGrid.remove"/>
+            </startSlot>
+            <endSlot>
+                <simplePagination id="pagination" dataLoader="petTypesDl"/>
+            </endSlot>
         </hbox>
         <dataGrid id="petTypesDataGrid"
                   width="100%"

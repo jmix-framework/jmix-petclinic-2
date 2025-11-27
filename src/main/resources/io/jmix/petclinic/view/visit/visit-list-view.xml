@@ -42,9 +42,9 @@
         <settings auto="true"/>
     </facets>
     <actions>
-        <action id="calendarHome" icon="HOME" />
-        <action id="calendarPrev" icon="ARROW_CIRCLE_LEFT" />
-        <action id="calendarNext" icon="ARROW_CIRCLE_RIGHT" />
+        <action id="calendarHome" icon="HOME"/>
+        <action id="calendarPrev" icon="ARROW_CIRCLE_LEFT"/>
+        <action id="calendarNext" icon="ARROW_CIRCLE_RIGHT"/>
     </actions>
     <layout>
         <tabSheet id="contentTabSheet" width="100%" height="100%">
@@ -58,14 +58,17 @@
                             </details>
                         </vbox>
                         <vbox id="calendarBox">
-                            <hbox id="calendarButtonsPanel" classNames="buttons-panel" expand="spacer" alignItems="BASELINE">
-                                <button id="homeBtn" action="calendarHome"/>
-                                <button id="prevBtn" action="calendarPrev"/>
-                                <button id="nextBtn" action="calendarNext"/>
-                                <h4 id="calendarTitle" />
-                                <span id="spacer" />
-                                <select itemsEnum="io.jmix.petclinic.view.visit.CalendarViewMode"
-                                        id="calendarViewMode" />
+                            <hbox id="calendarButtonsPanel" classNames="buttons-panel" alignItems="CENTER">
+                                <startSlot>
+                                    <button id="homeBtn" action="calendarHome"/>
+                                    <button id="prevBtn" action="calendarPrev"/>
+                                    <button id="nextBtn" action="calendarNext"/>
+                                    <h4 id="calendarTitle"/>
+                                </startSlot>
+                                <endSlot>
+                                    <select itemsEnum="io.jmix.petclinic.view.visit.CalendarViewMode"
+                                            id="calendarViewMode"/>
+                                </endSlot>
                             </hbox>
 
                             <calendar:calendar
@@ -95,16 +98,20 @@
                 </vbox>
             </tab>
             <tab id="allVisitsTab" label="msg://allVisits">
-                <vbox width="100%" padding="false">
+                <vbox width="100%" padding="false" height="100%">
                     <genericFilter id="genericFilter"
                                    dataLoader="visitsDl">
                         <properties include=".*"/>
                     </genericFilter>
                     <hbox id="buttonsPanel" classNames="buttons-panel">
-                        <button id="createBtn" action="visitsDataGrid.create"/>
-                        <button id="editBtn" action="visitsDataGrid.edit"/>
-                        <button id="removeBtn" action="visitsDataGrid.remove"/>
-                        <simplePagination id="pagination" dataLoader="visitsDl"/>
+                        <startSlot>
+                            <button id="createBtn" action="visitsDataGrid.create"/>
+                            <button id="editBtn" action="visitsDataGrid.edit"/>
+                            <button id="removeBtn" action="visitsDataGrid.remove"/>
+                        </startSlot>
+                        <endSlot>
+                            <simplePagination id="pagination" dataLoader="visitsDl"/>
+                        </endSlot>
                     </hbox>
                     <dataGrid id="visitsDataGrid"
                               width="100%"

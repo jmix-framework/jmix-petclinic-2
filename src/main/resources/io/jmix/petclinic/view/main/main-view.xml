@@ -2,7 +2,8 @@
 <mainView xmlns="http://jmix.io/schema/flowui/main-view"
           title="msg://MainView.title">
     <actions>
-        <action id="logout" type="logout"/>
+        <action id="logoutAction" type="logout"
+                text="msg:///actions.logout.text"/>
     </actions>
     <facets>
         <timer id="refreshMyVisitsBadge" delay="3000" autostart="true" repeating="true"/>
@@ -15,6 +16,20 @@
                               themeNames="contrast"
                               ariaLabel="msg://drawerToggle.ariaLabel"/>
                 <h1 id="viewTitle" classNames="jmix-main-view-title"/>
+
+                <userMenu id="userMenu"
+                          themeNames="tertiary" classNames="ms-auto me-m">
+                    <items>
+                        <separator/>
+                        <actionItem id="substituteUserMenuItem"
+                                    themeNames="non-checkable">
+                            <action id="substituteUserAction" type="sec_userMenuSubstituteUser"/>
+                        </actionItem>
+                        <separator/>
+                        <actionItem id="logoutMenuItem" ref="logoutAction"
+                                    themeNames="non-checkable"/>
+                    </items>
+                </userMenu>
             </header>
         </navigationBar>
         <drawerLayout>
@@ -35,12 +50,6 @@
                      ariaLabel="msg://navigation.ariaLabel">
                     <listMenu id="menu"/>
                 </nav>
-                <footer id="footer" classNames="jmix-main-view-footer">
-                    <userIndicator id="userIndicator"/>
-                    <button id="logoutButton"
-                            action="logout"
-                            classNames="jmix-logout-button"/>
-                </footer>
             </section>
         </drawerLayout>
         <initialLayout>

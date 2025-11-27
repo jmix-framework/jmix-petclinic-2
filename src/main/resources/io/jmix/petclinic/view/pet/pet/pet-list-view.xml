@@ -42,45 +42,45 @@
         <action id="clearFilterAction" text="msg://clearFilter" icon="ERASER"/>
     </actions>
     <layout>
-        <hbox width="100%" alignItems="BASELINE" classNames="buttons-panel">
-            <propertyFilter
-                    id="identificationNumberFilter"
-                    property="identificationNumber"
-                    operation="CONTAINS"
-                    dataLoader="petsDl"
-                    labelPosition="TOP"
-                    label="msg://io.jmix.petclinic.entity.pet/Pet.identificationNumber"
+        <gridLayout width="100%">
+            <propertyFilter id="identificationNumberFilter"
+                            property="identificationNumber"
+                            operation="CONTAINS"
+                            dataLoader="petsDl"
+                            labelPosition="TOP"
+                            label="msg://io.jmix.petclinic.entity.pet/Pet.identificationNumber"
             />
-            <propertyFilter
-                    id="typeFilter"
-                    property="type"
-                    operation="EQUAL"
-                    dataLoader="petsDl"
-                    labelPosition="TOP"
-                    label="msg://io.jmix.petclinic.entity.pet/Pet.type"
+            <propertyFilter id="typeFilter"
+                            property="type"
+                            operation="EQUAL"
+                            dataLoader="petsDl"
+                            labelPosition="TOP"
+                            label="msg://io.jmix.petclinic.entity.pet/Pet.type"
             />
-            <propertyFilter
-                    id="ownerFilter"
-                    property="owner"
-                    operation="EQUAL"
-                    dataLoader="petsDl"
-                    labelPosition="TOP"
-                    label="msg://io.jmix.petclinic.entity.pet/Pet.owner">
-
-                <entityComboBox metaClass="petclinic_Owner" itemsContainer="ownersDc" />
+            <propertyFilter id="ownerFilter"
+                            property="owner"
+                            operation="EQUAL"
+                            dataLoader="petsDl"
+                            labelPosition="TOP"
+                            label="msg://io.jmix.petclinic.entity.pet/Pet.owner">
+                <entityComboBox metaClass="petclinic_Owner" itemsContainer="ownersDc" width="100%"/>
             </propertyFilter>
-            <button id="clearFilterBtn" action="clearFilterAction" />
-        </hbox>
+            <button id="clearFilterBtn" action="clearFilterAction" classNames="self-end"/>
+        </gridLayout>
         <genericFilter id="genericFilter"
                        dataLoader="petsDl" opened="false" summaryText="Advanced Filter">
             <properties include=".*"/>
         </genericFilter>
         <hbox id="buttonsPanel" classNames="buttons-panel">
-            <button id="createBtn" action="petsDataGrid.create"/>
-            <button id="editBtn" action="petsDataGrid.edit"/>
-            <button id="removeBtn" action="petsDataGrid.remove"/>
-            <button id="excelExportBtn" action="petsDataGrid.excelExport"/>
-            <simplePagination id="pagination" dataLoader="petsDl"/>
+            <startSlot>
+                <button id="createBtn" action="petsDataGrid.create"/>
+                <button id="editBtn" action="petsDataGrid.edit"/>
+                <button id="removeBtn" action="petsDataGrid.remove"/>
+                <button id="excelExportBtn" action="petsDataGrid.excelExport"/>
+            </startSlot>
+            <endSlot>
+                <simplePagination id="pagination" dataLoader="petsDl"/>
+            </endSlot>
         </hbox>
         <dataGrid id="petsDataGrid"
                   width="100%"

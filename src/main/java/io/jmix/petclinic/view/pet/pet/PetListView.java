@@ -2,8 +2,10 @@ package io.jmix.petclinic.view.pet.pet;
 
 import io.jmix.flowui.component.propertyfilter.PropertyFilter;
 import io.jmix.flowui.kit.action.ActionPerformedEvent;
+import io.jmix.petclinic.entity.owner.Owner;
 import io.jmix.petclinic.entity.pet.Pet;
 
+import io.jmix.petclinic.entity.pet.PetType;
 import io.jmix.petclinic.view.main.MainView;
 
 import com.vaadin.flow.router.Route;
@@ -17,11 +19,11 @@ import io.jmix.flowui.view.*;
 public class PetListView extends StandardListView<Pet> {
 
     @ViewComponent
-    private PropertyFilter identificationNumberFilter;
+    private PropertyFilter<String> identificationNumberFilter;
     @ViewComponent
-    private PropertyFilter typeFilter;
+    private PropertyFilter<PetType> typeFilter;
     @ViewComponent
-    private PropertyFilter ownerFilter;
+    private PropertyFilter<Owner> ownerFilter;
 
     @Subscribe("clearFilterAction")
     public void onClearFilterAction(final ActionPerformedEvent event) {
